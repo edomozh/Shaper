@@ -1,12 +1,13 @@
 ﻿namespace Shaper.Shapes
 {
-    internal class Rectangle : Shape
+    public class Rectangle : Shape
     {
         public double Width { get; set; }
         public double Height { get; set; }
 
-        public Rectangle(double x, double y, double width, double height) : base(x, y)
+        public Rectangle(double x, double y, double width, double height)
         {
+            Points.Add(new Point(x, y));
             Height = height;
             Width = width;
         }
@@ -16,9 +17,9 @@
             throw new NotImplementedException();
         }
 
-        public override (double x, double y, double width, double height) GetBoundingBox()
+        public override Box GetBoundingBox()
         {
-            return (Origin.X, Origin.Y, Width, Height);
+            return new Box(Points[0].X, Points[0].Y, Width, Height);
         }
     }
 }

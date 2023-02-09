@@ -2,8 +2,8 @@
 {
     public class Point
     {
-        internal double X;
-        internal double Y;
+        public double X;
+        public double Y;
 
         public Point(double x, double y)
         {

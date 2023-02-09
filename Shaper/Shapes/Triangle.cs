@@ -1,14 +1,12 @@
 ﻿namespace Shaper.Shapes
 {
-    internal class Triangle : Shape
+    public class Triangle : Shape
     {
-        public Point Second { get; set; }
-        public Point Third { get; set; }
-
-        public Triangle(double x, double y, double secondX, double secondY, double thirdX, double thirdY) : base(x, y)
+        public Triangle(double aX, double aY, double bX, double bY, double cX, double cY)
         {
-            Second = new Point(secondX, secondY);
-            Third = new Point(thirdX, thirdY);
+            Points.Add(new Point(aX, aY));
+            Points.Add(new Point(bX, bY));
+            Points.Add(new Point(cX, cY));
         }
 
         public override bool Intersection(Shape other)
@@ -16,13 +14,13 @@
             throw new NotImplementedException();
         }
 
-        public override (double x, double y, double width, double height) GetBoundingBox()
+        public override Box GetBoundingBox()
         {
-            double x = Math.Min(Math.Min(Origin.X, Second.X), Third.X);
-            double y = Math.Min(Math.Min(Origin.Y, Second.Y), Third.Y);
-            double width = Math.Max(Math.Max(Origin.X, Second.X), Third.X) - x;
-            double height = Math.Max(Math.Max(Origin.Y, Second.Y), Third.Y) - y;
-            return (x, y, width, height);
+            double x = Math.Min(Math.Min(Points[0].X, Points[1].X), Points[2].X);
+            double y = Math.Min(Math.Min(Points[0].Y, Points[1].Y), Points[2].Y);
+            double width = Math.Max(Math.Max(Points[0].X, Points[1].X), Points[2].X) - x;
+            double height = Math.Max(Math.Max(Points[0].Y, Points[1].Y), Points[2].Y) - y;
+            return new Box(x, y, width, height);
         }
     }
 }

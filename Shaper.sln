@@ -8,8 +8,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaperClient", "ShaperClient\ShaperClient.csproj", "{D92BDD28-622E-4BA4-8552-4841F3F39B9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaperTests", "ShaperTests\ShaperTests.csproj", "{5BCDB779-7B69-4BC9-BEA3-63FC4E30766C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E2AD3AA6-E29B-48D6-8FC6-CB795352D479} = {E2AD3AA6-E29B-48D6-8FC6-CB795352D479}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualizer", "Visualizer\Visualizer.csproj", "{092ED256-1030-4211-8283-31D3A61DE6A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuffler", "Shuffler\Shuffler.csproj", "{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{092ED256-1030-4211-8283-31D3A61DE6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092ED256-1030-4211-8283-31D3A61DE6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092ED256-1030-4211-8283-31D3A61DE6A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,11 +1,12 @@
 ﻿namespace Shaper.Shapes
 {
-    internal class Circle : Shape
+    public class Circle : Shape
     {
         public double Radius { get; set; }
 
-        public Circle(double x, double y, double radius) : base(x, y)
+        public Circle(double x, double y, double radius)
         {
+            Points.Add(new Point(x, y));
             Radius = radius;
         }
 
@@ -14,13 +15,13 @@
             throw new NotImplementedException();
         }
 
-        public override (double x, double y, double width, double height) GetBoundingBox()
+        public override Box GetBoundingBox()
         {
-            double x = Origin.X - Radius;
-            double y = Origin.Y - Radius;
+            double x = Points.First().X - Radius;
+            double y = Points.First().Y - Radius;
             double width = 2 * Radius;
             double height = 2 * Radius;
-            return (x, y, width, height);
+            return new Box(x, y, width, height);
         }
     }
 }

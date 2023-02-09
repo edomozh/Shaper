@@ -1,12 +1,11 @@
 ﻿namespace Shaper.Shapes
 {
-    internal class Line : Shape
+    public class Line : Shape
     {
-        Point Second { get; set; }
-
-        public Line(double x, double y, double x1, double y1) : base(x, y)
+        public Line(double x, double y, double x1, double y1)
         {
-            Second = new Point(x1, y1);
+            Points.Add(new Point(x, y));
+            Points.Add(new Point(x1, y1));
         }
 
         public override bool Intersection(Shape other)
@@ -14,13 +13,13 @@
             throw new NotImplementedException();
         }
 
-        public override (double x, double y, double width, double height) GetBoundingBox()
+        public override Box GetBoundingBox()
         {
-            double x = Math.Min(Origin.X, Second.X);
-            double y = Math.Min(Origin.Y, Second.Y);
-            double width = Math.Abs(Second.X - Origin.X);
-            double height = Math.Abs(Second.Y - Origin.Y);
-            return (x, y, width, height);
+            double x = Math.Min(Points[0].X, Points[1].X);
+            double y = Math.Min(Points[0].Y, Points[1].Y);
+            double width = Math.Abs(Points[1].X - Points[0].X);
+            double height = Math.Abs(Points[1].Y - Points[0].Y);
+            return new Box(x, y, width, height);
         }
     }
 }

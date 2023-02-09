@@ -2,28 +2,27 @@
 {
     public abstract class Shape
     {
-        public ulong DrawOrder { get; set; }
+        public uint DrawOrder { get; set; }
 
-        public Point Origin { get; set; }
+        public List<Point> Points { get; set; } = new List<Point>();
 
-        protected Shape(double x, double y)
+        private Box? _box;
+        public Box Box
         {
-            Origin = new Point(x, y);
+            get { return _box ??= GetBoundingBox(); }
+            private set { _box = value; }
         }
 
-        public abstract bool Intersection(Shape box2);
+        public abstract bool Intersection(Shape target);
 
-        public abstract (double x, double y, double width, double height) GetBoundingBox();
+        public abstract Box GetBoundingBox();
 
-        public bool BoundingBoxIntersection(Shape shape1, Shape shape2)
+        public bool BoundingBoxIntersection(Box box)
         {
-            var box1 = shape1.GetBoundingBox();
-            var box2 = shape2.GetBoundingBox();
-
-            return box1.x < box2.x + box2.width &&
-                   box1.x + box1.width > box2.x &&
-                   box1.y < box2.y + box2.height &&
-                   box1.y + box1.height > box2.y;
+            return Box.X < box.X + box.Width &&
+                   Box.X + Box.Width > box.X &&
+                   Box.Y < box.Y + box.Height &&
+                   Box.Y + Box.Height > box.Y;
         }
     }
 }

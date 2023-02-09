@@ -1,4 +1,6 @@
-﻿namespace Shaper
+﻿using Shaper.Shapes;
+
+namespace Shaper
 {
     public class Shaper
     {
@@ -12,7 +14,7 @@
             throw new NotImplementedException();
         }
 
-        private static double GetDistance(Point point1, Point point2)
+        private static double Filter(Point point1, Point point2)
         {
             double xDiff = point2.X - point1.X;
             double yDiff = point2.Y - point1.Y;
