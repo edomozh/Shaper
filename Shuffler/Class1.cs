@@ -1,4 +1,4 @@
-﻿namespace Shaper
+﻿namespace Shuffler
 {
     public class Class1
     {
