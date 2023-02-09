@@ -1,6 +1,6 @@
 # Shaper
 
-library to recognize foreground shapes (shapes which are over any others).
+library for recognizing foreground shapes (shapes which are over any others).
 
 # Requirements
 
@@ -35,5 +35,6 @@ Shuffler is a lubrary to shuffle shapes on the "table".
 - break after first catch
 - use multithreading for sets of shapes (consider number of processor cores)
 - start from the top of queue and break after running out of space for a new shape
+- skip shapes that far apart
 
 # Things to improve

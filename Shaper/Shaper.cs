@@ -11,5 +11,12 @@
         {
             throw new NotImplementedException();
         }
+
+        private static double GetDistance(Point point1, Point point2)
+        {
+            double xDiff = point2.X - point1.X;
+            double yDiff = point2.Y - point1.Y;
+            return Math.Sqrt(xDiff * xDiff + yDiff * yDiff);
+        }
     }
 }
