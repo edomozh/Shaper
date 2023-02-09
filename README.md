@@ -18,8 +18,8 @@ It should be 100% native .Net solution.
 # Progest structure
 Visualizer should create an image to show all shapes on the screen.  
 Shaper is a library with two public methods.  
-- FindAllForegroundShapes(int amountToFind, IEnumerable<Shape> shapes)
-- FindAllForegroundShapesAsync(int amountToFind, IEnumerable<Shape> shapes)
+- FindAllForegroundShapes(int amountToFind, IEnumerable<Shape> shapes)  
+- FindAllForegroundShapesAsync(int amountToFind, IEnumerable<Shape> shapes)  
 ShaperTests is NUnit tests for Shaper.  
 ShaperClient is a UI to easy demonstrate the result.  
 Shuffler is a lubrary to shuffle shapes on the "table".  
