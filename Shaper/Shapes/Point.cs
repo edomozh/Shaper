@@ -1,6 +1,6 @@
 ﻿namespace Shaper.Shapes
 {
-    public class Point
+    public struct Point
     {
         public double X;
         public double Y;

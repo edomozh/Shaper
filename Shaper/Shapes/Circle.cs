@@ -10,11 +10,6 @@
             Radius = radius;
         }
 
-        public override bool Intersection(Shape other)
-        {
-            throw new NotImplementedException();
-        }
-
         public override Box GetBoundingBox()
         {
             double x = Points.First().X - Radius;

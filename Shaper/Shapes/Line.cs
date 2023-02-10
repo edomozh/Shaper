@@ -8,11 +8,6 @@
             Points.Add(new Point(x1, y1));
         }
 
-        public override bool Intersection(Shape other)
-        {
-            throw new NotImplementedException();
-        }
-
         public override Box GetBoundingBox()
         {
             double x = Math.Min(Points[0].X, Points[1].X);

@@ -12,11 +12,6 @@
             Width = width;
         }
 
-        public override bool Intersection(Shape other)
-        {
-            throw new NotImplementedException();
-        }
-
         public override Box GetBoundingBox()
         {
             return new Box(Points[0].X, Points[0].Y, Width, Height);

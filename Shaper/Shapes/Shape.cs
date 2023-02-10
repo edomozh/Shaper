@@ -13,16 +13,14 @@
             private set { _box = value; }
         }
 
-        public abstract bool Intersection(Shape target);
-
         public abstract Box GetBoundingBox();
 
         public bool BoundingBoxIntersection(Box box)
         {
-            return Box.X < box.X + box.Width &&
-                   Box.X + Box.Width > box.X &&
-                   Box.Y < box.Y + box.Height &&
-                   Box.Y + Box.Height > box.Y;
+            return Box.X <= box.X + box.Width &&
+                   Box.X + Box.Width >= box.X &&
+                   Box.Y <= box.Y + box.Height &&
+                   Box.Y + Box.Height >= box.Y;
         }
     }
 }
