@@ -3,18 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shaper", "Shaper\Shaper.csproj", "{E2AD3AA6-E29B-48D6-8FC6-CB795352D479}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shaper", "Shaper\Shaper.csproj", "{E2AD3AA6-E29B-48D6-8FC6-CB795352D479}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaperClient", "ShaperClient\ShaperClient.csproj", "{D92BDD28-622E-4BA4-8552-4841F3F39B9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShaperClient", "ShaperClient\ShaperClient.csproj", "{D92BDD28-622E-4BA4-8552-4841F3F39B9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaperTests", "ShaperTests\ShaperTests.csproj", "{5BCDB779-7B69-4BC9-BEA3-63FC4E30766C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShaperTests", "ShaperTests\ShaperTests.csproj", "{5BCDB779-7B69-4BC9-BEA3-63FC4E30766C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E2AD3AA6-E29B-48D6-8FC6-CB795352D479} = {E2AD3AA6-E29B-48D6-8FC6-CB795352D479}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualizer", "Visualizer\Visualizer.csproj", "{092ED256-1030-4211-8283-31D3A61DE6A6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuffler", "Shuffler\Shuffler.csproj", "{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visualizer", "Visualizer\Visualizer.csproj", "{092ED256-1030-4211-8283-31D3A61DE6A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +36,6 @@ Global
 		{092ED256-1030-4211-8283-31D3A61DE6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092ED256-1030-4211-8283-31D3A61DE6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092ED256-1030-4211-8283-31D3A61DE6A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{888F88F5-4BAD-4AC5-BCE4-96936CE2AFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

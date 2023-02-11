@@ -72,7 +72,7 @@ namespace ShaperTests.Shaper
         public void CircleRectangle_Intersection()
         {
             var figure1 = new Circle(50, 50, 50);
-            var figure2 = new Rectangle(60, 100, 100, 100);
+            var figure2 = new Rectangle(60, 0, 100, 100);
 
             Assert.That(_checker.CheckIntersection(figure1, figure2), Is.True);
         }

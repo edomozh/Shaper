@@ -4,24 +4,24 @@ namespace Shaper
 {
     public class IntersectionChecker
     {
-        private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> ComplexRules = new();
+        private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> IntersectionRules = new();
         private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> InAreaRules = new();
 
         public IntersectionChecker()
         {
-            CreateOrUpdateComplexRule(typeof(Circle), typeof(Circle), CircleCircleIntersection);
-            CreateOrUpdateComplexRule(typeof(Circle), typeof(Line), CircleLineIntersection);
-            CreateOrUpdateComplexRule(typeof(Circle), typeof(Rectangle), CircleRectangleIntersection);
-            CreateOrUpdateComplexRule(typeof(Circle), typeof(Triangle), CircleTriangleIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Circle), CircleCircleIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Line), CircleLinesIntersectionRule);
+            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Rectangle), CircleLinesIntersectionRule);
+            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Triangle), CircleLinesIntersectionRule);
 
-            CreateOrUpdateComplexRule(typeof(Line), typeof(Line), LinesIntersection);
-            CreateOrUpdateComplexRule(typeof(Line), typeof(Rectangle), LinesIntersection);
-            CreateOrUpdateComplexRule(typeof(Line), typeof(Triangle), LinesIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Line), typeof(Line), LinesIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Line), typeof(Rectangle), LinesIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Line), typeof(Triangle), LinesIntersection);
 
-            CreateOrUpdateComplexRule(typeof(Rectangle), typeof(Rectangle), LinesIntersection);
-            CreateOrUpdateComplexRule(typeof(Rectangle), typeof(Triangle), LinesIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Rectangle), typeof(Rectangle), LinesIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Rectangle), typeof(Triangle), LinesIntersection);
 
-            CreateOrUpdateComplexRule(typeof(Triangle), typeof(Triangle), LinesIntersection);
+            CreateOrUpdateIntersectionRule(typeof(Triangle), typeof(Triangle), LinesIntersection);
 
 
             CreateOrUpdateInAreaRule(typeof(Circle), typeof(Circle), PointInCircleRule);
@@ -39,10 +39,10 @@ namespace Shaper
             CreateOrUpdateInAreaRule(typeof(Triangle), typeof(Triangle), PointInTriangleRule);
         }
 
-        public void CreateOrUpdateComplexRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
+        public void CreateOrUpdateIntersectionRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
         {
-            ComplexRules[(type1, type2)] = checker;
-            ComplexRules[(type2, type1)] = (s1, s2) => checker(s2, s1);
+            IntersectionRules[(type1, type2)] = checker;
+            IntersectionRules[(type2, type1)] = (s1, s2) => checker(s2, s1);
         }
 
         public void CreateOrUpdateInAreaRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
@@ -57,10 +57,10 @@ namespace Shaper
                 if (inAreaRule(shape1, shape2))
                     return true;
 
-            if (ComplexRules.TryGetValue((shape1.GetType(), shape2.GetType()), out Func<Shape, Shape, bool>? complexRule))
+            if (IntersectionRules.TryGetValue((shape1.GetType(), shape2.GetType()), out Func<Shape, Shape, bool>? complexRule))
                 return complexRule(shape1, shape2);
 
-            throw new ArgumentException($"No intersection checker available for the {shape1.GetType()} and {shape2.GetType()}");
+            throw new ArgumentException($"No intersection rule available for the {shape1.GetType()} and {shape2.GetType()}");
 
         }
 
@@ -76,29 +76,11 @@ namespace Shaper
             return s1.Radius + s2.Radius >= distance;
         }
 
-        private bool CircleLineIntersection(Shape circle, Shape line)
+        private bool CircleLinesIntersectionRule(Shape shape1, Shape shape2)
         {
-            if (circle is not Circle s1 || line is not Line s2)
-                throw new ArgumentException($"Can't cast Shape to concrete implementation.");
-
-
-            throw new NotImplementedException();
-        }
-
-        private bool CircleRectangleIntersection(Shape circle, Shape rectangle)
-        {
-            if (circle is not Circle s1 || rectangle is not Rectangle s2)
-                throw new ArgumentException($"Can't cast Shape to concrete implementation.");
-
-            throw new NotImplementedException();
-        }
-
-        private bool CircleTriangleIntersection(Shape circle, Shape triangle)
-        {
-            if (circle is not Circle s1 || triangle is not Triangle s2)
-                throw new ArgumentException($"Can't cast Shape to concrete implementation.");
-
-            throw new NotImplementedException();
+            if (shape1 is Circle c1) return shape2.GetLines().Any(l => CircleLineIntersection(l, c1));
+            if (shape2 is Circle c2) return shape1.GetLines().Any(l => CircleLineIntersection(l, c2));
+            throw new ArgumentException($"Can't cast Shape to concrete implementation.");
         }
 
         private static bool LinesIntersection(Shape shape1, Shape shape2)
@@ -114,9 +96,67 @@ namespace Shaper
             return false;
         }
 
+        public static bool PointInCircleRule(Shape shape1, Shape shape2)
+        {
+            if (shape1 is Circle c1) return shape2.Points.Any(p => PointInCircle(p, c1));
+            if (shape2 is Circle c2) return shape1.Points.Any(p => PointInCircle(p, c2));
+            return false;
+        }
+
+        public static bool PointInRectangleRule(Shape shape1, Shape shape2)
+        {
+            if (shape1 is Rectangle r1) return shape2.Points.Any(p => PointInRectangle(p, r1));
+            if (shape2 is Rectangle r2) return shape1.Points.Any(p => PointInRectangle(p, r2));
+            return false;
+        }
+
+        public static bool PointInTriangleRule(Shape shape1, Shape shape2)
+        {
+            if (shape1 is Triangle t1) return shape2.Points.Any(p => PointInTriangle(p, t1));
+            if (shape2 is Triangle t2) return shape1.Points.Any(p => PointInTriangle(p, t2));
+            return false;
+        }
+
+        public static bool PointOnLineRule(Shape shape1, Shape shape2)
+        {
+            if (shape1 is Line l1) return shape2.Points.Any(p => PointOnLine(p, l1));
+            if (shape2 is Line l2) return shape1.Points.Any(p => PointOnLine(p, l2));
+            return false;
+        }
+
         #endregion RULEFUNCTIONS
 
-        #region LINEINTERSECTION
+        #region LINEINTERSECTION MATH
+
+        public static bool CircleLineIntersection((Point p1, Point p2) line, Circle circle)
+        {
+            Point d = new Point
+            {
+                X = line.p2.X - line.p1.X,
+                Y = line.p2.Y - line.p1.Y
+            };
+            Point f = new Point
+            {
+                X = line.p1.X - circle.Points[0].X,
+                Y = line.p1.Y - circle.Points[0].Y
+            };
+
+            double a = d.X * d.X + d.Y * d.Y;
+            double b = 2 * (f.X * d.X + f.Y * d.Y);
+            double c = f.X * f.X + f.Y * f.Y - circle.Radius * circle.Radius;
+
+            double discriminant = b * b - 4 * a * c;
+            if (discriminant < 0)
+            {
+                return false;
+            }
+
+            discriminant = Math.Sqrt(discriminant);
+            double t1 = (-b - discriminant) / (2 * a);
+            double t2 = (-b + discriminant) / (2 * a);
+
+            return (t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1);
+        }
 
         static bool OnSegment(Point p, Point q, Point r)
         {
@@ -171,9 +211,9 @@ namespace Shaper
             return false; // Doesn't fall in any of the above cases
         }
 
-        #endregion LINEINTERSECTION
+        #endregion LINEINTERSECTION MATH
 
-        #region INAREA
+        #region INAREA MATH
 
         private static double Sign(Point p1, Point p2, Point p3)
         {
@@ -227,34 +267,6 @@ namespace Shaper
             return Math.Abs(crossProduct) < double.Epsilon;
         }
 
-        public static bool PointInCircleRule(Shape shape1, Shape shape2)
-        {
-            if (shape1 is Circle c1) return shape2.Points.Any(p => PointInCircle(p, c1));
-            if (shape2 is Circle c2) return shape1.Points.Any(p => PointInCircle(p, c2));
-            return false;
-        }
-
-        public static bool PointInRectangleRule(Shape shape1, Shape shape2)
-        {
-            if (shape1 is Rectangle r1) return shape2.Points.Any(p => PointInRectangle(p, r1));
-            if (shape2 is Rectangle r2) return shape1.Points.Any(p => PointInRectangle(p, r2));
-            return false;
-        }
-
-        public static bool PointInTriangleRule(Shape shape1, Shape shape2)
-        {
-            if (shape1 is Triangle t1) return shape2.Points.Any(p => PointInTriangle(p, t1));
-            if (shape2 is Triangle t2) return shape1.Points.Any(p => PointInTriangle(p, t2));
-            return false;
-        }
-
-        public static bool PointOnLineRule(Shape shape1, Shape shape2)
-        {
-            if (shape1 is Line l1) return shape2.Points.Any(p => PointOnLine(p, l1));
-            if (shape2 is Line l2) return shape1.Points.Any(p => PointOnLine(p, l2));
-            return false;
-        }
-
-        #endregion INAREA
+        #endregion INAREA MATH
     }
 }
