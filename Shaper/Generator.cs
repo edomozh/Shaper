@@ -33,22 +33,47 @@ namespace Shaper
 
         private void CreateRectangle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
-            throw new NotImplementedException();
+            int width = _random.Next(minSize, maxSize);
+            int height = _random.Next(minSize, maxSize);
+            int x = _random.Next(0, surfaceWidth - width);
+            int y = _random.Next(0, surfaceHeight - height);
+
+            shapes.Add(new Rectangle(x, y, width, height));
         }
 
         private void CreateTriangle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
-            throw new NotImplementedException();
+            int sideLength = _random.Next(minSize, maxSize);
+            int x1 = _random.Next(0, surfaceWidth - sideLength);
+            int y1 = _random.Next(0, surfaceHeight - sideLength);
+            int x2 = x1 + sideLength;
+            int y2 = y1;
+            int x3 = x1 + (sideLength / 2);
+            int y3 = y1 + (int)(Math.Sqrt(3) / 2 * sideLength);
+
+            var triangle = new Triangle(x1, y1, x2, y2, x3, y3);
+
+            shapes.Add(triangle);
         }
 
         private void CreateLine(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
-            throw new NotImplementedException();
+            var x1 = _random.Next(0, surfaceWidth);
+            var y1 = _random.Next(0, surfaceHeight);
+            var x2 = x1 + _random.Next(minSize, maxSize);
+            var y2 = y1 + _random.Next(minSize, maxSize);
+
+            shapes.Add(new Line(x1, y1, x2, y2));
         }
 
         private void CreateCircle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
-            throw new NotImplementedException();
+            int radius = _random.Next(minSize / 2, maxSize / 2);
+            int x = _random.Next(surfaceWidth);
+            int y = _random.Next(surfaceHeight);
+            var circle = new Circle(x, y, radius);
+
+            shapes.Add(circle);
         }
     }
 }

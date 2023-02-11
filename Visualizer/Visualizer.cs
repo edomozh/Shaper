@@ -1,7 +1,7 @@
 ﻿namespace Visualizer
 {
-    public class Class1
+    public class Visualizer
     {
-
+        
     }
 }
