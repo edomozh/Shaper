@@ -1,4 +1,5 @@
 ﻿using Shaper.Shapes;
+using Shaper.Structs;
 
 namespace Shaper
 {
@@ -7,45 +8,79 @@ namespace Shaper
         private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> IntersectionRules = new();
         private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> InAreaRules = new();
 
+        private readonly RulesContainer IntersectionRulesContainer = new();
+        private readonly RulesContainer InAreaRulesContainer = new();
+
+
         public IntersectionChecker()
         {
-            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Circle), CircleCircleIntersection);
-            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Line), CircleLinesIntersectionRule);
-            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Rectangle), CircleLinesIntersectionRule);
-            CreateOrUpdateIntersectionRule(typeof(Circle), typeof(Triangle), CircleLinesIntersectionRule);
+            IntersectionRulesContainer.UpdateRule<Circle, Circle>(CircleCircleIntersection);
+            IntersectionRulesContainer.UpdateRule<Circle, Line>(CircleLinesIntersectionRule);
+            IntersectionRulesContainer.UpdateRule<Circle, Rectangle>(CircleLinesIntersectionRule);
+            IntersectionRulesContainer.UpdateRule<Circle, Triangle>(CircleLinesIntersectionRule);
 
-            CreateOrUpdateIntersectionRule(typeof(Line), typeof(Line), LinesIntersection);
-            CreateOrUpdateIntersectionRule(typeof(Line), typeof(Rectangle), LinesIntersection);
-            CreateOrUpdateIntersectionRule(typeof(Line), typeof(Triangle), LinesIntersection);
+            IntersectionRulesContainer.UpdateRule<Line, Line>(LinesIntersection);
+            IntersectionRulesContainer.UpdateRule<Line, Rectangle>(LinesIntersection);
+            IntersectionRulesContainer.UpdateRule<Line, Triangle>(LinesIntersection);
 
-            CreateOrUpdateIntersectionRule(typeof(Rectangle), typeof(Rectangle), LinesIntersection);
-            CreateOrUpdateIntersectionRule(typeof(Rectangle), typeof(Triangle), LinesIntersection);
+            IntersectionRulesContainer.UpdateRule<Rectangle, Rectangle>(LinesIntersection);
+            IntersectionRulesContainer.UpdateRule<Rectangle, Triangle>(LinesIntersection);
 
-            CreateOrUpdateIntersectionRule(typeof(Triangle), typeof(Triangle), LinesIntersection);
+            IntersectionRulesContainer.UpdateRule<Triangle, Triangle>(LinesIntersection);
+
+            InAreaRulesContainer.UpdateRule<Circle, Circle>(PointInCircleRule);
+            InAreaRulesContainer.UpdateRule<Circle, Line>(PointInCircleRule);
+            InAreaRulesContainer.UpdateRule<Circle, Rectangle>(PointInCircleRule);
+            InAreaRulesContainer.UpdateRule<Circle, Triangle>(PointInCircleRule);
+
+            InAreaRulesContainer.UpdateRule<Rectangle, Line>(PointInRectangleRule);
+            InAreaRulesContainer.UpdateRule<Rectangle, Rectangle>(PointInRectangleRule);
+            InAreaRulesContainer.UpdateRule<Rectangle, Triangle>(PointInRectangleRule);
+
+            InAreaRulesContainer.UpdateRule<Line, Line>(PointInCircleRule);
+            InAreaRulesContainer.UpdateRule<Line, Triangle>(PointInCircleRule);
+
+            InAreaRulesContainer.UpdateRule<Triangle, Triangle>(PointInTriangleRule);
 
 
-            CreateOrUpdateInAreaRule(typeof(Circle), typeof(Circle), PointInCircleRule);
-            CreateOrUpdateInAreaRule(typeof(Circle), typeof(Line), PointInCircleRule);
-            CreateOrUpdateInAreaRule(typeof(Circle), typeof(Rectangle), PointInCircleRule);
-            CreateOrUpdateInAreaRule(typeof(Circle), typeof(Triangle), PointInCircleRule);
 
-            CreateOrUpdateInAreaRule(typeof(Rectangle), typeof(Line), PointInRectangleRule);
-            CreateOrUpdateInAreaRule(typeof(Rectangle), typeof(Rectangle), PointInRectangleRule);
-            CreateOrUpdateInAreaRule(typeof(Rectangle), typeof(Triangle), PointInRectangleRule);
+            UpdateIntersectionRule(typeof(Circle), typeof(Circle), CircleCircleIntersection);
+            UpdateIntersectionRule(typeof(Circle), typeof(Line), CircleLinesIntersectionRule);
+            UpdateIntersectionRule(typeof(Circle), typeof(Rectangle), CircleLinesIntersectionRule);
+            UpdateIntersectionRule(typeof(Circle), typeof(Triangle), CircleLinesIntersectionRule);
 
-            CreateOrUpdateInAreaRule(typeof(Line), typeof(Line), PointInCircleRule);
-            CreateOrUpdateInAreaRule(typeof(Line), typeof(Triangle), PointInCircleRule);
+            UpdateIntersectionRule(typeof(Line), typeof(Line), LinesIntersection);
+            UpdateIntersectionRule(typeof(Line), typeof(Rectangle), LinesIntersection);
+            UpdateIntersectionRule(typeof(Line), typeof(Triangle), LinesIntersection);
 
-            CreateOrUpdateInAreaRule(typeof(Triangle), typeof(Triangle), PointInTriangleRule);
+            UpdateIntersectionRule(typeof(Rectangle), typeof(Rectangle), LinesIntersection);
+            UpdateIntersectionRule(typeof(Rectangle), typeof(Triangle), LinesIntersection);
+
+            UpdateIntersectionRule(typeof(Triangle), typeof(Triangle), LinesIntersection);
+
+
+            UpdateAreaRule(typeof(Circle), typeof(Circle), PointInCircleRule);
+            UpdateAreaRule(typeof(Circle), typeof(Line), PointInCircleRule);
+            UpdateAreaRule(typeof(Circle), typeof(Rectangle), PointInCircleRule);
+            UpdateAreaRule(typeof(Circle), typeof(Triangle), PointInCircleRule);
+
+            UpdateAreaRule(typeof(Rectangle), typeof(Line), PointInRectangleRule);
+            UpdateAreaRule(typeof(Rectangle), typeof(Rectangle), PointInRectangleRule);
+            UpdateAreaRule(typeof(Rectangle), typeof(Triangle), PointInRectangleRule);
+
+            UpdateAreaRule(typeof(Line), typeof(Line), PointInCircleRule);
+            UpdateAreaRule(typeof(Line), typeof(Triangle), PointInCircleRule);
+
+            UpdateAreaRule(typeof(Triangle), typeof(Triangle), PointInTriangleRule);
         }
 
-        public void CreateOrUpdateIntersectionRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
+        public void UpdateIntersectionRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
         {
             IntersectionRules[(type1, type2)] = checker;
             IntersectionRules[(type2, type1)] = (s1, s2) => checker(s2, s1);
         }
 
-        public void CreateOrUpdateInAreaRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
+        public void UpdateAreaRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
         {
             InAreaRules[(type1, type2)] = checker;
             InAreaRules[(type2, type1)] = (s1, s2) => checker(s2, s1);
@@ -53,6 +88,9 @@ namespace Shaper
 
         public bool CheckIntersection(Shape shape1, Shape shape2)
         {
+            if (IntersectionRulesContainer.GetRule(shape1, shape2)(shape1, shape2))
+                return true;
+
             if (InAreaRules.TryGetValue((shape1.GetType(), shape2.GetType()), out Func<Shape, Shape, bool>? inAreaRule))
                 if (inAreaRule(shape1, shape2))
                     return true;
