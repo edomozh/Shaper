@@ -17,17 +17,23 @@ It should be 100% native .Net solution.
 
 # Progest structure
 
-Visualizer should create an image to show all shapes on the screen. 
+## Visualizer 
 
-Shaper is a library with two public methods.  
-- FindAllForegroundShapes(int amountToFind, IEnumerable<Shape> shapes)  
-- FindAllForegroundShapesAsync(int amountToFind, IEnumerable<Shape> shapes)  
+Should create an image from List<Shapes>. 
 
-ShaperTests is NUnit tests for Shaper.  
+## Shaper 
+It is a library to play with shapes.
+- Shaper.FindAllForegroundShapes(int amountToFind, IEnumerable<Shape> shapes)  
+- Shaper.FindAllForegroundShapesAsync(int amountToFind, IEnumerable<Shape> shapes)
+- Shaper.Fabrica.GetList(int count, int minSize, int maxSize, Random randomizer, params Type[] types)...
 
-ShaperClient is a UI to easy demonstrate the result.  
+## ShaperTests 
 
-Shuffler is a lubrary to shuffle shapes on the "table".  
+It is NUnit tests for Shaper.  
+
+## ShaperClient
+
+It is a UI to easy demonstrate the result.  
 
 # Algorithm ideas
 

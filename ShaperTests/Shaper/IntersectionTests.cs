@@ -5,7 +5,7 @@ namespace ShaperTests.Shaper
 {
     public class IntersectionTests
     {
-        ShapeIntersectionChecker _checker = new ShapeIntersectionChecker();
+        IntersectionChecker _checker = new IntersectionChecker();
 
         [SetUp]
         public void Setup()
@@ -17,8 +17,8 @@ namespace ShaperTests.Shaper
         [Test]
         public void Circles_Intersection()
         {
-            var figure1 = new Circle(20, 20, 40);
-            var figure2 = new Circle(60, 60, 45);
+            var figure1 = new Circle(40, 40, 40);
+            var figure2 = new Circle(100, 100, 45);
 
             Assert.That(_checker.CheckIntersection(figure1, figure2), Is.True);
         }
@@ -26,8 +26,8 @@ namespace ShaperTests.Shaper
         [Test]
         public void Circles_NoIntersection()
         {
-            var figure1 = new Circle(20, 20, 40);
-            var figure2 = new Circle(60, 60, 40);
+            var figure1 = new Circle(40, 40, 40);
+            var figure2 = new Circle(100, 100, 40);
 
             Assert.That(_checker.CheckIntersection(figure1, figure2), Is.False);
         }

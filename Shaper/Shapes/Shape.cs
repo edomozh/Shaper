@@ -1,9 +1,9 @@
-﻿namespace Shaper.Shapes
+﻿using System.Drawing;
+
+namespace Shaper.Shapes
 {
     public abstract class Shape
     {
-        public uint DrawOrder { get; set; }
-
         public List<Point> Points { get; set; } = new List<Point>();
 
         private Box? _box;
@@ -21,6 +21,17 @@
                    Box.X + Box.Width >= box.X &&
                    Box.Y <= box.Y + box.Height &&
                    Box.Y + Box.Height >= box.Y;
+        }
+
+        public IEnumerable<(Point p1, Point p2)> GetLines()
+        {
+            if (Points.Count < 2)
+                yield break;
+
+            for (int i = 0; i < Points.Count - 1; i++)
+                yield return new(Points[i], Points[i + 1]);
+
+            yield return new(Points[Points.Count - 1], Points[0]);
         }
     }
 }

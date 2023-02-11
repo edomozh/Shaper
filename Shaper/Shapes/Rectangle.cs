@@ -10,6 +10,15 @@
             Points.Add(new Point(x, y));
             Height = height;
             Width = width;
+
+            double minX = Points[0].X;
+            double minY = Points[0].Y;
+            double maxX = minX + Width;
+            double maxY = minY + Height;
+
+            Points.Add(new Point(maxX, minY));  // top right
+            Points.Add(new Point(minX, maxY));  // bottom left
+            Points.Add(new Point(maxX, maxY));  // bottom right
         }
 
         public override Box GetBoundingBox()
