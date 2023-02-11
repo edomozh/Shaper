@@ -1,4 +1,4 @@
-﻿namespace Shaper.Shapes
+﻿namespace Shaper.Structs
 {
     public struct Point
     {

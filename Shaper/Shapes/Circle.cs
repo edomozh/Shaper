@@ -1,4 +1,6 @@
-﻿namespace Shaper.Shapes
+﻿using Shaper.Structs;
+
+namespace Shaper.Shapes
 {
     public class Circle : Shape
     {
