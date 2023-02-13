@@ -1,10 +1,13 @@
-﻿using Shaper.Structs;
+﻿using Shaper.Interfaces;
+using Shaper.Structs;
 
 namespace Shaper.Shapes
 {
-    public class Circle : Shape
+    public class Circle : Shape, ICircle
     {
         public double Radius { get; set; }
+
+        public Point Center => Points[0];
 
         public Circle(double x, double y, double radius)
         {

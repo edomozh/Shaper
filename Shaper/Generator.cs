@@ -4,7 +4,7 @@ namespace Shaper
 {
     public class Generator
     {
-        private readonly Random _random = new Random();
+        private readonly Random _random = new();
 
         public IEnumerable<Shape> GetShapes(
             int count = 10,
@@ -60,8 +60,8 @@ namespace Shaper
         {
             var x1 = _random.Next(0, surfaceWidth);
             var y1 = _random.Next(0, surfaceHeight);
-            var x2 = x1 + _random.Next(minSize, maxSize);
-            var y2 = y1 + _random.Next(minSize, maxSize);
+            var x2 = x1 + _random.Next(-maxSize, maxSize);
+            var y2 = y1 + _random.Next(-maxSize, maxSize);
 
             shapes.Add(new Line(x1, y1, x2, y2));
         }

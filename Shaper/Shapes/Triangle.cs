@@ -1,8 +1,9 @@
-﻿using Shaper.Structs;
+﻿using Shaper.Interfaces;
+using Shaper.Structs;
 
 namespace Shaper.Shapes
 {
-    public class Triangle : Shape
+    public class Triangle : Shape, ITriangle
     {
         public Triangle(double aX, double aY, double bX, double bY, double cX, double cY)
         {
@@ -10,6 +11,12 @@ namespace Shaper.Shapes
             Points.Add(new Point(bX, bY));
             Points.Add(new Point(cX, cY));
         }
+
+        public Point A => Points[0];
+
+        public Point B => Points[1];
+
+        public Point C => Points[2];
 
         public override Box GetBoundingBox()
         {

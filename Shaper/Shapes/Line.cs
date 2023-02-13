@@ -1,14 +1,19 @@
-﻿using Shaper.Structs;
+﻿using Shaper.Interfaces;
+using Shaper.Structs;
 
 namespace Shaper.Shapes
 {
-    public class Line : Shape
+    public class Line : Shape, ILine
     {
         public Line(double x, double y, double x1, double y1)
         {
             Points.Add(new Point(x, y));
             Points.Add(new Point(x1, y1));
         }
+
+        public Point A => Points[0];
+
+        public Point B => Points[1];
 
         public override Box GetBoundingBox()
         {

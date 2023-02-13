@@ -72,7 +72,7 @@ namespace Shaper
             if (circle1 is not Circle s1 || circle2 is not Circle s2)
                 throw new ArgumentException($"Can't cast Shape to concrete implementation.");
 
-            var distance = GetDistanse(s1.Points[0], s2.Points[0]);
+            var distance = GetDistanse(s1.Center, s2.Center);
 
             return s1.Radius + s2.Radius >= distance;
         }
@@ -138,8 +138,8 @@ namespace Shaper
             };
             Point f = new Point
             {
-                X = line.p1.X - circle.Points[0].X,
-                Y = line.p1.Y - circle.Points[0].Y
+                X = line.p1.X - circle.Center.X,
+                Y = line.p1.Y - circle.Center.Y
             };
 
             double a = d.X * d.X + d.Y * d.Y;
@@ -223,9 +223,9 @@ namespace Shaper
 
         private static bool PointInTriangle(Point point, Triangle triangle)
         {
-            Point v1 = triangle.Points[0];
-            Point v2 = triangle.Points[1];
-            Point v3 = triangle.Points[2];
+            Point v1 = triangle.A;
+            Point v2 = triangle.B;
+            Point v3 = triangle.C;
 
             double d1, d2, d3;
             bool has_neg, has_pos;
@@ -242,7 +242,7 @@ namespace Shaper
 
         private static bool PointInRectangle(Point point, Rectangle rectangle)
         {
-            Point v1 = rectangle.Points[0];
+            Point v1 = rectangle.TopLeft;
 
             return (point.X >= v1.X && point.X <= v1.X + rectangle.Width) &&
                    (point.Y >= v1.Y && point.Y <= v1.Y + rectangle.Height);
@@ -255,14 +255,14 @@ namespace Shaper
 
         public static bool PointInCircle(Point point, Circle circle)
         {
-            double distance = GetDistanse(point, circle.Points[0]);
+            double distance = GetDistanse(point, circle.Center);
             return distance <= circle.Radius;
         }
 
         public static bool PointOnLine(Point point, Line l)
         {
-            Point start = l.Points[0];
-            Point end = l.Points[1];
+            Point start = l.A;
+            Point end = l.B;
 
             double crossProduct = (end.Y - start.Y) * point.X - (end.X - start.X) * point.Y + end.X * start.Y - end.Y * start.X;
             return Math.Abs(crossProduct) < double.Epsilon;

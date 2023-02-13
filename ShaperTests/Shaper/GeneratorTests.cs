@@ -30,7 +30,7 @@ namespace ShaperTests.Shaper
         {
             var generator = new Generator();
             var shapes = generator.GetShapes(count: 50, minSize: 50, maxSize: 150);
-            
+
             var err = shapes.Where(s => s.Box.Width < 50 && s.Box.Height < 50);
 
             Assert.That(shapes.Any(s => s.Box.Width < 50 && s.Box.Height < 50), Is.False);
@@ -39,7 +39,6 @@ namespace ShaperTests.Shaper
         [Test]
         public void GetShapes_CountIs5_ReturnsExpectedNumberOfShapes()
         {
-
             var generator = new Generator();
             var shapes = generator.GetShapes(count: 5);
             Assert.That(shapes.Count(), Is.EqualTo(5));
