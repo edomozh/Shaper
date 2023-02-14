@@ -91,8 +91,8 @@ namespace Shaper
             double angle = _random.NextDouble() * 2 * Math.PI;
 
             // Generate a random starting point for the line
-            int startX = _random.Next((int)(surfaceWidth - lineLength * Math.Cos(angle)));
-            int startY = _random.Next((int)(surfaceHeight - lineLength * Math.Sin(angle)));
+            int startX = _random.Next(lineLength, surfaceWidth - lineLength);
+            int startY = _random.Next(lineLength, surfaceHeight - lineLength);
 
             // Calculate the end point of the line based on the angle and length
             int endX = (int)(startX + lineLength * Math.Cos(angle));
