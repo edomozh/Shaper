@@ -52,7 +52,6 @@ namespace Shaper
                 {
                     result.Add(i);
                     NewShapeFound?.Invoke(this, shapes[i], i);
-                    //Thread.Sleep(1000);
                 }
                 else
                 {

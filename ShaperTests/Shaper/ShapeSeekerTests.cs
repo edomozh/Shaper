@@ -21,7 +21,9 @@ namespace ShaperTests.Shaper
         {
             var shapes = generator.GetShapes(10, 100, 100, 5, 10);
             int expectedAmountToFind = 3;
+
             var result = seeker.FindAllForegroundShapes(expectedAmountToFind, shapes);
+
             Assert.That(result.Count(), Is.EqualTo(expectedAmountToFind));
         }
 
@@ -30,7 +32,9 @@ namespace ShaperTests.Shaper
         {
             var shapes = generator.GetShapes(10, 100, 100, 5, 10);
             int expectedAmountToFind = 0;
+
             var result = seeker.FindAllForegroundShapes(expectedAmountToFind, shapes);
+
             Assert.That(result.Count(), Is.EqualTo(expectedAmountToFind));
         }
 
@@ -39,7 +43,9 @@ namespace ShaperTests.Shaper
         {
             var shapes = new List<Shape>();
             int expectedAmountToFind = 3;
+
             var result = seeker.FindAllForegroundShapes(expectedAmountToFind, shapes);
+
             Assert.That(result.Count(), Is.EqualTo(0));
         }
     }

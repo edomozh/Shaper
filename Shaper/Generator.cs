@@ -47,10 +47,10 @@ namespace Shaper
         {
             int width = _random.Next(minSize, maxSize);
             int height = _random.Next(minSize, maxSize);
-            int x = _random.Next(0, surfaceWidth - width);
-            int y = _random.Next(0, surfaceHeight - height);
+            int topLeftX = _random.Next(0, surfaceWidth - width);
+            int topLeftY = _random.Next(0, surfaceHeight - height);
 
-            shapes.Add(new Rectangle(x, y, width, height));
+            shapes.Add(new Rectangle(topLeftX, topLeftY, width, height));
         }
 
         private void CreateTriangle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
@@ -61,23 +61,20 @@ namespace Shaper
             int x1 = _random.Next(0 + longestSideLength, surfaceWidth - longestSideLength);
             int y1 = _random.Next(0 + longestSideLength, surfaceHeight - longestSideLength);
 
-            // Generate random angles for the two lines
+            // Generate random angles
             double angle1 = _random.NextDouble() * 2 * Math.PI;
-            // Generate sharp angle
-            double angle2 = angle1 + (_random.NextDouble()) * Math.PI / 2;
+            // Generate sharp angle (0 - 60)
+            double angle2 = angle1 + _random.NextDouble();
 
             // Calculate the end point of the second side of the triangle
             int x2 = (int)(x1 + longestSideLength * Math.Cos(angle1));
             int y2 = (int)(y1 + longestSideLength * Math.Sin(angle1));
 
-            // Calculate the distance between the first and second points
-            // double distance = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
-
-            double distance = _random.Next(minSize, longestSideLength);
+            double secondSideLenght = _random.Next(minSize, longestSideLength);
 
             // Calculate the end point of the third side of the triangle
-            int x3 = (int)(x1 + distance * Math.Cos(angle2));
-            int y3 = (int)(y1 + distance * Math.Sin(angle2));
+            int x3 = (int)(x1 + secondSideLenght * Math.Cos(angle2));
+            int y3 = (int)(y1 + secondSideLenght * Math.Sin(angle2));
 
             var triangle = new Triangle(x1, y1, x2, y2, x3, y3);
 
@@ -105,9 +102,9 @@ namespace Shaper
         private void CreateCircle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
             int radius = _random.Next(minSize / 2, maxSize / 2);
-            int x = _random.Next(radius, surfaceWidth - radius);
-            int y = _random.Next(radius, surfaceHeight - radius);
-            var circle = new Circle(x, y, radius);
+            int centerX = _random.Next(radius, surfaceWidth - radius);
+            int centerY = _random.Next(radius, surfaceHeight - radius);
+            var circle = new Circle(centerX, centerY, radius);
 
             shapes.Add(circle);
         }

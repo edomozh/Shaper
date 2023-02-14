@@ -15,7 +15,6 @@ namespace ShaperTests.Shaper
             var rect2 = new Rectangle(100, 100, 100, 100);
 
             Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
-           
         }
 
         [Test]
@@ -25,7 +24,6 @@ namespace ShaperTests.Shaper
             var rect2 = new Rectangle(50, 50, 100, 100);
 
             Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
-           
         }
 
         [Test]
@@ -35,7 +33,6 @@ namespace ShaperTests.Shaper
             var rect2 = new Rectangle(100, 0, 100, 100);
 
             Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
-           
         }
 
         [Test]
@@ -45,7 +42,6 @@ namespace ShaperTests.Shaper
             var rect2 = new Rectangle(0, 0, 100, 100);
 
             Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
-           
         }
 
         [Test]
@@ -55,7 +51,6 @@ namespace ShaperTests.Shaper
             var rect2 = new Rectangle(500, 500, 100, 100);
 
             Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.False);
-           
         }
 
         [Test]
@@ -65,7 +60,6 @@ namespace ShaperTests.Shaper
             var rect2 = new Rectangle(0, 0, 100, 100);
 
             Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.False);
-           
         }
     }
 }

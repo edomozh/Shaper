@@ -79,8 +79,12 @@ namespace Shaper
 
         private bool CircleLinesIntersectionRule(Shape shape1, Shape shape2)
         {
-            if (shape1 is Circle c1) return shape2.GetLines().Any(l => CircleLineIntersection(l, c1));
-            if (shape2 is Circle c2) return shape1.GetLines().Any(l => CircleLineIntersection(l, c2));
+            if (shape1 is Circle circle1)
+                return shape2.GetLines().Any(l => CircleLineIntersection(l, circle1));
+
+            if (shape2 is Circle circle2)
+                return shape1.GetLines().Any(l => CircleLineIntersection(l, circle2));
+
             throw new ArgumentException($"Can't cast Shape to concrete implementation.");
         }
 
@@ -99,29 +103,34 @@ namespace Shaper
 
         public static bool PointInCircleRule(Shape shape1, Shape shape2)
         {
-            if (shape1 is Circle c1) return shape2.Points.Any(p => PointInCircle(p, c1));
-            if (shape2 is Circle c2) return shape1.Points.Any(p => PointInCircle(p, c2));
+            if (shape1 is Circle circle1)
+                return shape2.Points.Any(p => PointInCircle(p, circle1));
+
+            if (shape2 is Circle circle2)
+                return shape1.Points.Any(p => PointInCircle(p, circle2));
+
             return false;
         }
 
         public static bool PointInRectangleRule(Shape shape1, Shape shape2)
         {
-            if (shape1 is Rectangle r1) return shape2.Points.Any(p => PointInRectangle(p, r1));
-            if (shape2 is Rectangle r2) return shape1.Points.Any(p => PointInRectangle(p, r2));
+            if (shape1 is Rectangle rect1)
+                return shape2.Points.Any(p => PointInRectangle(p, rect1));
+
+            if (shape2 is Rectangle rect2)
+                return shape1.Points.Any(p => PointInRectangle(p, rect2));
+
             return false;
         }
 
         public static bool PointInTriangleRule(Shape shape1, Shape shape2)
         {
-            if (shape1 is Triangle t1) return shape2.Points.Any(p => PointInTriangle(p, t1));
-            if (shape2 is Triangle t2) return shape1.Points.Any(p => PointInTriangle(p, t2));
-            return false;
-        }
+            if (shape1 is Triangle triangle1)
+                return shape2.Points.Any(p => PointInTriangle(p, triangle1));
 
-        public static bool PointOnLineRule(Shape shape1, Shape shape2)
-        {
-            if (shape1 is Line l1) return shape2.Points.Any(p => PointOnLine(p, l1));
-            if (shape2 is Line l2) return shape1.Points.Any(p => PointOnLine(p, l2));
+            if (shape2 is Triangle triangle2)
+                return shape1.Points.Any(p => PointInTriangle(p, triangle2));
+
             return false;
         }
 
@@ -248,24 +257,15 @@ namespace Shaper
                    (point.Y >= v1.Y && point.Y <= v1.Y + rectangle.Height);
         }
 
-        private static double GetDistanse(Point point1, Point point2)
+        private static double GetDistanse(Point start, Point end)
         {
-            return Math.Sqrt(Math.Pow(point1.X - point2.X, 2) + Math.Pow(point1.Y - point2.Y, 2));
+            return Math.Sqrt(Math.Pow(start.X - end.X, 2) + Math.Pow(start.Y - end.Y, 2));
         }
 
         public static bool PointInCircle(Point point, Circle circle)
         {
             double distance = GetDistanse(point, circle.Center);
             return distance <= circle.Radius;
-        }
-
-        public static bool PointOnLine(Point point, Line l)
-        {
-            Point start = l.A;
-            Point end = l.B;
-
-            double crossProduct = (end.Y - start.Y) * point.X - (end.X - start.X) * point.Y + end.X * start.Y - end.Y * start.X;
-            return Math.Abs(crossProduct) < double.Epsilon;
         }
 
         #endregion INAREA MATH
