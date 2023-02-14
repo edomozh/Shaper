@@ -18,6 +18,20 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
+        public void GetShapes_Triangles_AllTrianglesHasLongSide()
+        {
+            var generator = new Generator();
+            var shapes = generator.GetShapes(maxSize: 50, rectangles: false, lines: false, circles: false);
+
+            Assert.That(shapes.Any(s => s is not Triangle), Is.EqualTo(false));
+
+            Assert.That(shapes.Any(s => s.GetLines().Any(l =>
+                Math.Sqrt(Math.Pow(l.p1.X - l.p2.X, 2) + Math.Pow(l.p1.Y - l.p2.Y, 2)) > 50
+                )), Is.EqualTo(false));
+
+        }
+
+        [Test]
         public void GetShapes_Max50_ReturnsShapesWithCorrectSizes()
         {
             var generator = new Generator();

@@ -61,22 +61,23 @@ namespace Shaper
             int x1 = _random.Next(0 + longestSideLength, surfaceWidth - longestSideLength);
             int y1 = _random.Next(0 + longestSideLength, surfaceHeight - longestSideLength);
 
-            // Generate a random angle for the second side of the triangle
-            double angle = _random.NextDouble() * 2 * Math.PI;
+            // Generate random angles for the two lines
+            double angle1 = _random.NextDouble() * 2 * Math.PI;
+            // Generate sharp angle
+            double angle2 = angle1 + (_random.NextDouble()) * Math.PI / 2;
 
             // Calculate the end point of the second side of the triangle
-            int x2 = (int)(x1 + longestSideLength * Math.Cos(angle));
-            int y2 = (int)(y1 + longestSideLength * Math.Sin(angle));
+            int x2 = (int)(x1 + longestSideLength * Math.Cos(angle1));
+            int y2 = (int)(y1 + longestSideLength * Math.Sin(angle1));
 
             // Calculate the distance between the first and second points
-            double distance = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+            // double distance = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
 
-            // Generate a random angle for the third side of the triangle
-            double angle2 = _random.NextDouble() * 2 * Math.PI;
+            double distance = _random.Next(minSize, longestSideLength);
 
             // Calculate the end point of the third side of the triangle
-            int x3 = (int)(x1 + distance * Math.Cos(angle2 + Math.PI / 3));
-            int y3 = (int)(y1 + distance * Math.Sin(angle2 + Math.PI / 3));
+            int x3 = (int)(x1 + distance * Math.Cos(angle2));
+            int y3 = (int)(y1 + distance * Math.Sin(angle2));
 
             var triangle = new Triangle(x1, y1, x2, y2, x3, y3);
 

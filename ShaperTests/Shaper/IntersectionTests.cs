@@ -43,6 +43,24 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
+        public void CircleVerticalLine_Intersection()
+        {
+            var figure1 = new Circle(50, 50, 50);
+            var figure2 = new Line(99, 0, 99, 99);
+
+            Assert.That(_checker.CheckIntersection(figure1, figure2), Is.True);
+        }
+
+        [Test]
+        public void CircleRectangleRight_Intersection()
+        {
+            var figure1 = new Circle(235, 220, 150);
+            var figure2 = new Rectangle(379, 142, 300, 300);
+
+            Assert.That(_checker.CheckIntersection(figure1, figure2), Is.True);
+        }
+
+        [Test]
         public void CircleLine_NoIntersection()
         {
             var figure1 = new Circle(50, 50, 50);
@@ -82,7 +100,7 @@ namespace ShaperTests.Shaper
         public void CircleRectangle_NoIntersection()
         {
             var figure1 = new Circle(50, 50, 50);
-            var figure2 = new Rectangle(86, 86, 100, 100);
+            var figure2 = new Rectangle(87, 87, 100, 100);
 
             Assert.That(_checker.CheckIntersection(figure1, figure2), Is.False);
         }

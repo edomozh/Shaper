@@ -13,15 +13,15 @@ namespace Shaper.Shapes
 
         public Rectangle(double x, double y, double width, double height)
         {
-            Points.Add(new Point(x, y));
             Height = height;
             Width = width;
 
-            double minX = Points[0].X;
-            double minY = Points[0].Y;
-            double maxX = minX + Width;
-            double maxY = minY + Height;
+            double minX = x;
+            double minY = y;
+            double maxX = x + width;
+            double maxY = y + height;
 
+            Points.Add(new Point(minX, minY));  // top left
             Points.Add(new Point(maxX, minY));  // top right
             Points.Add(new Point(minX, maxY));  // bottom left
             Points.Add(new Point(maxX, maxY));  // bottom right

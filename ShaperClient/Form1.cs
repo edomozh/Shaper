@@ -28,7 +28,7 @@ namespace ShaperClient
             pictureBox1.Refresh();
             var image = new Bitmap(width, height);
             using var graphics = Graphics.FromImage(image);
-            using var pen = new Pen(Color.FromKnownColor(KnownColor.Black), 2);
+            using var pen = new Pen(Color.FromKnownColor(KnownColor.Black));
             using var brush = new SolidBrush(Color.FromKnownColor(KnownColor.White));
 
             DrawShapes(graphics, pen, brush, Shapes);
@@ -45,7 +45,7 @@ namespace ShaperClient
 
                 if (shape is Shaper.Shapes.Rectangle r) DrawRectangle(graphics, pen, brush, r);
 
-                if (shape is Line l) DrawLine(graphics, pen, brush, l);
+                if (shape is Line l) DrawLine(graphics, pen, l);
 
                 if (shape is Triangle t) DrawTriangle(graphics, pen, brush, t);
             }
@@ -57,7 +57,7 @@ namespace ShaperClient
             graphics.DrawEllipse(pen, new System.Drawing.Rectangle((int)(c.Center.X - c.Radius), (int)(c.Center.Y - c.Radius), (int)(c.Radius * 2), (int)(c.Radius * 2)));
         }
 
-        private void DrawLine(Graphics graphics, Pen pen, Brush brush, Line l)
+        private void DrawLine(Graphics graphics, Pen pen, Line l)
         {
             graphics.DrawLine(pen, new Point((int)l.A.X, (int)l.A.Y), new Point((int)l.B.X, (int)l.B.Y));
         }
@@ -111,7 +111,7 @@ namespace ShaperClient
             var image = pictureBox1.Image.Clone() as Image;
 
             using var graphics = Graphics.FromImage(image!);
-            using var pen = new Pen(Color.FromKnownColor(KnownColor.DarkGreen), 4);
+            using var pen = new Pen(Color.FromKnownColor(KnownColor.DarkGreen), 1);
             using var brush = new SolidBrush(Color.FromKnownColor(KnownColor.Green));
 
             DrawShapes(graphics, pen, brush, shapesToDraw);

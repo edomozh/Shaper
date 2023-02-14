@@ -137,7 +137,7 @@ namespace ShaperClient
             this.numericUpDown1.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown1.TabIndex = 10;
             this.numericUpDown1.Value = new decimal(new int[] {
-            50,
+            500,
             0,
             0,
             0});
@@ -164,7 +164,7 @@ namespace ShaperClient
             this.numericUpDown2.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown2.TabIndex = 11;
             this.numericUpDown2.Value = new decimal(new int[] {
-            5,
+            500,
             0,
             0,
             0});
@@ -191,7 +191,7 @@ namespace ShaperClient
             this.numericUpDown3.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown3.TabIndex = 12;
             this.numericUpDown3.Value = new decimal(new int[] {
-            600,
+            900,
             0,
             0,
             0});
@@ -312,7 +312,7 @@ namespace ShaperClient
             this.numericUpDown6.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown6.TabIndex = 19;
             this.numericUpDown6.Value = new decimal(new int[] {
-            100,
+            150,
             0,
             0,
             0});
