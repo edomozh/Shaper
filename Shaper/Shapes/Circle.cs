@@ -5,9 +5,9 @@ namespace Shaper.Shapes
 {
     public class Circle : Shape, ICircle
     {
-        public double Radius { get; set; }
-
         public Point Center => Points[0];
+
+        public double Radius { get; set; }
 
         public Circle(double x, double y, double radius)
         {

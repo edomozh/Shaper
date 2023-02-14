@@ -15,14 +15,15 @@ namespace ShaperClient
         private void button1_Click(object sender, EventArgs e)
         {
             var count = decimal.ToInt32(numericUpDown1.Value);
-            var find = decimal.ToInt32(numericUpDown2.Value);
             var width = decimal.ToInt32(numericUpDown3.Value);
             var height = decimal.ToInt32(numericUpDown4.Value);
             var minSize = decimal.ToInt32(numericUpDown5.Value);
             var maxSize = decimal.ToInt32(numericUpDown6.Value);
 
             var generator = new Generator();
-            Shapes = generator.GetShapes(count, width, height, minSize, maxSize).ToList();
+            Shapes = generator.GetShapes(count, width, height, minSize, maxSize,
+                                         checkBox1.Checked, checkBox2.Checked, checkBox3.Checked, checkBox4.Checked)
+                                         .ToList();
 
             pictureBox1.Refresh();
             var image = new Bitmap(width, height);
@@ -95,18 +96,22 @@ namespace ShaperClient
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             if (Shapes == null || pictureBox1.Image == null) return;
 
-            var shaper = new ShapeSeeker();
-            var result = shaper.FindAllForegroundShapes(decimal.ToInt32(numericUpDown2.Value), Shapes);
+            var seeker = new ShapeSeeker();
+
+            seeker.Progress += Seeker_ProgressHandler;
+
+            var result = await seeker.FindAllForegroundShapesAsync(decimal.ToInt32(numericUpDown2.Value), Shapes);
 
             var shapesToDraw = result.Select(i => Shapes[i]);
 
             var image = pictureBox1.Image.Clone() as Image;
+
             using var graphics = Graphics.FromImage(image!);
-            using var pen = new Pen(Color.FromKnownColor(KnownColor.DarkGreen), 2);
+            using var pen = new Pen(Color.FromKnownColor(KnownColor.DarkGreen), 4);
             using var brush = new SolidBrush(Color.FromKnownColor(KnownColor.Green));
 
             DrawShapes(graphics, pen, brush, shapesToDraw);
@@ -114,13 +119,16 @@ namespace ShaperClient
             pictureBox2.Image = image;
         }
 
+        private void Seeker_ProgressHandler(object obj, int percent)
+        {
+            progressBar1.Invoke(() => { progressBar1.Value = percent; });
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             if (pictureBox1.Image == null) return;
 
             saveFileDialog1.Filter = "JPEG Image|*.jpeg|PNG Image|*.png|BMP Image|*.bmp";
-            saveFileDialog1.DefaultExt = "png";
-
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 pictureBox1.Image.Save(saveFileDialog1.FileName);
@@ -132,12 +140,15 @@ namespace ShaperClient
             if (pictureBox2.Image == null) return;
 
             saveFileDialog1.Filter = "JPEG Image|*.jpeg|PNG Image|*.png|BMP Image|*.bmp";
-            saveFileDialog1.DefaultExt = "png";
-
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 pictureBox2.Image.Save(saveFileDialog1.FileName);
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -5,18 +5,18 @@ namespace Shaper.Shapes
 {
     public class Triangle : Shape, ITriangle
     {
+        public Point A => Points[0];
+
+        public Point B => Points[1];
+
+        public Point C => Points[2];
+
         public Triangle(double aX, double aY, double bX, double bY, double cX, double cY)
         {
             Points.Add(new Point(aX, aY));
             Points.Add(new Point(bX, bY));
             Points.Add(new Point(cX, cY));
         }
-
-        public Point A => Points[0];
-
-        public Point B => Points[1];
-
-        public Point C => Points[2];
 
         public override Box GetBoundingBox()
         {

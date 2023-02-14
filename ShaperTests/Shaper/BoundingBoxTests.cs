@@ -2,6 +2,7 @@ using Shaper.Shapes;
 
 namespace ShaperTests.Shaper
 {
+    [TestFixture]
     public class BoundingBoxIntersectionsTests
     {
         [SetUp]

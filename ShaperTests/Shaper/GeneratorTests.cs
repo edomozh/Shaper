@@ -3,9 +3,9 @@ using Shaper.Shapes;
 
 namespace ShaperTests.Shaper
 {
+    [TestFixture]
     public class GeneratorTests
     {
-
         [SetUp]
         public void Setup() { }
 
@@ -21,7 +21,7 @@ namespace ShaperTests.Shaper
         public void GetShapes_Max50_ReturnsShapesWithCorrectSizes()
         {
             var generator = new Generator();
-            var shapes = generator.GetShapes(count: 50, maxSize: 50);
+            var shapes = generator.GetShapes(count: 50, maxSize: 50, lines: false, triangles: false);
             Assert.That(shapes.Any(s => s.Box.Width > 50 || s.Box.Height > 50), Is.False);
         }
 
@@ -29,9 +29,7 @@ namespace ShaperTests.Shaper
         public void GetShapes_Min50_ReturnsShapesWithCorrectSizes()
         {
             var generator = new Generator();
-            var shapes = generator.GetShapes(count: 50, minSize: 50, maxSize: 150);
-
-            var err = shapes.Where(s => s.Box.Width < 50 && s.Box.Height < 50);
+            var shapes = generator.GetShapes(count: 50, minSize: 50, maxSize: 150, lines: false, triangles: false);
 
             Assert.That(shapes.Any(s => s.Box.Width < 50 && s.Box.Height < 50), Is.False);
         }

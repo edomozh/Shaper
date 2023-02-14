@@ -3,6 +3,7 @@ using Shaper.Shapes;
 
 namespace ShaperTests.Shaper
 {
+    [TestFixture]
     public class IntersectionTests
     {
         IntersectionChecker _checker = new IntersectionChecker();

@@ -6,7 +6,7 @@ namespace Shaper
     {
         private readonly Random _random = new();
 
-        public IEnumerable<Shape> GetShapes(
+        public List<Shape> GetShapes(
             int count = 10,
             int surfaceWidth = 600,
             int surfaceHeight = 400,
@@ -18,14 +18,26 @@ namespace Shaper
             bool circles = true,
             bool lines = true)
         {
+            if (surfaceHeight < maxSize * 2 || surfaceWidth < maxSize * 2)
+                throw new ArgumentException("Surface Width and Height should be at least twice greater then Max shape size.");
+
+            if (!triangles && !rectangles && !circles && !lines)
+                throw new ArgumentException("There is no selected shapes for prodauction.");
+
+            if (minSize > maxSize)
+                throw new ArgumentException("Max size must be greater or equal then min size.");
+
+            if (count <= 0 || surfaceWidth <= 0 || surfaceHeight <= 0 || minSize < 0)
+                throw new ArgumentException("All number parameters must be greater than zero.");
+
             var shapes = new List<Shape>();
 
             for (int i = 0; i < count;)
             {
-                if (i++ < count && circles) CreateCircle(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
-                if (i++ < count && lines) CreateLine(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
-                if (i++ < count && triangles) CreateTriangle(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
-                if (i++ < count && rectangles) CreateRectangle(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
+                if (circles && i++ < count) CreateCircle(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
+                if (lines && i++ < count) CreateLine(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
+                if (triangles && i++ < count) CreateTriangle(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
+                if (rectangles && i++ < count) CreateRectangle(shapes, minSize, maxSize, surfaceWidth, surfaceHeight);
             }
 
             return shapes;
@@ -43,13 +55,28 @@ namespace Shaper
 
         private void CreateTriangle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
-            int sideLength = _random.Next(minSize, maxSize);
-            int x1 = _random.Next(0, surfaceWidth - sideLength);
-            int y1 = _random.Next(0, surfaceHeight - sideLength);
-            int x2 = x1 + sideLength;
-            int y2 = y1;
-            int x3 = x1 + (sideLength / 2);
-            int y3 = y1 + (int)(Math.Sqrt(3) / 2 * sideLength);
+            int longestSideLength = _random.Next(minSize, maxSize);
+
+            // Generate a random starting point for the first side of the triangle
+            int x1 = _random.Next(0 + longestSideLength, surfaceWidth - longestSideLength);
+            int y1 = _random.Next(0 + longestSideLength, surfaceHeight - longestSideLength);
+
+            // Generate a random angle for the second side of the triangle
+            double angle = _random.NextDouble() * 2 * Math.PI;
+
+            // Calculate the end point of the second side of the triangle
+            int x2 = (int)(x1 + longestSideLength * Math.Cos(angle));
+            int y2 = (int)(y1 + longestSideLength * Math.Sin(angle));
+
+            // Calculate the distance between the first and second points
+            double distance = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+
+            // Generate a random angle for the third side of the triangle
+            double angle2 = _random.NextDouble() * 2 * Math.PI;
+
+            // Calculate the end point of the third side of the triangle
+            int x3 = (int)(x1 + distance * Math.Cos(angle2 + Math.PI / 3));
+            int y3 = (int)(y1 + distance * Math.Sin(angle2 + Math.PI / 3));
 
             var triangle = new Triangle(x1, y1, x2, y2, x3, y3);
 
@@ -58,19 +85,27 @@ namespace Shaper
 
         private void CreateLine(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
-            var x1 = _random.Next(0, surfaceWidth);
-            var y1 = _random.Next(0, surfaceHeight);
-            var x2 = x1 + _random.Next(-maxSize, maxSize);
-            var y2 = y1 + _random.Next(-maxSize, maxSize);
+            var lineLength = _random.Next(minSize, maxSize);
 
-            shapes.Add(new Line(x1, y1, x2, y2));
+            // Generate a random angle for the direction of the line
+            double angle = _random.NextDouble() * 2 * Math.PI;
+
+            // Generate a random starting point for the line
+            int startX = _random.Next((int)(surfaceWidth - lineLength * Math.Cos(angle)));
+            int startY = _random.Next((int)(surfaceHeight - lineLength * Math.Sin(angle)));
+
+            // Calculate the end point of the line based on the angle and length
+            int endX = (int)(startX + lineLength * Math.Cos(angle));
+            int endY = (int)(startY + lineLength * Math.Sin(angle));
+
+            shapes.Add(new Line(startX, startY, endX, endY));
         }
 
         private void CreateCircle(List<Shape> shapes, int minSize, int maxSize, int surfaceWidth, int surfaceHeight)
         {
             int radius = _random.Next(minSize / 2, maxSize / 2);
-            int x = _random.Next(surfaceWidth);
-            int y = _random.Next(surfaceHeight);
+            int x = _random.Next(radius, surfaceWidth - radius);
+            int y = _random.Next(radius, surfaceHeight - radius);
             var circle = new Circle(x, y, radius);
 
             shapes.Add(circle);

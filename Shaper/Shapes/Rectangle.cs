@@ -5,10 +5,11 @@ namespace Shaper.Shapes
 {
     public class Rectangle : Shape, IRectangle
     {
-        public double Width { get; set; }
-        public double Height { get; set; }
-
         public Point TopLeft => Points[0];
+
+        public double Width { get; set; }
+
+        public double Height { get; set; }
 
         public Rectangle(double x, double y, double width, double height)
         {

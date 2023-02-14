@@ -4,9 +4,20 @@ namespace Shaper
 {
     public class ShapeSeeker
     {
+        public event Action<object, Shape, int> NewShapeFound = null;
+        public event Action<object, int> Progress = null;
 
         public IEnumerable<int> FindAllForegroundShapes(int amountToFind, List<Shape> shapes)
         {
+            if (amountToFind < 0)
+                throw new ArgumentOutOfRangeException("Amount must me positive number.");
+
+            if (shapes == null)
+                throw new ArgumentNullException();
+
+            if (amountToFind == 0)
+                return Array.Empty<int>();
+
             var checker = new IntersectionChecker();
 
             var result = new List<int>();
@@ -37,15 +48,18 @@ namespace Shaper
                     }
                 }
 
-
                 if (!thereIsIntersection)
                 {
                     result.Add(i);
+                    NewShapeFound?.Invoke(this, shapes[i], i);
+                    Thread.Sleep(1000);
                 }
                 else
                 {
                     passed.Add(i);
                 }
+
+                Progress?.Invoke(this, result.Count * 100 / amountToFind);
 
                 if (result.Count >= amountToFind)
                 {
@@ -56,9 +70,9 @@ namespace Shaper
             return result;
         }
 
-        public async Task<IEnumerable<Shape>> FindAllForegroundShapesAsync(int amountToFind, IEnumerable<Shape> shapes)
+        public async Task<IEnumerable<int>> FindAllForegroundShapesAsync(int amountToFind, List<Shape> shapes)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => FindAllForegroundShapes(amountToFind, shapes));
         }
     }
 }

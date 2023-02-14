@@ -52,6 +52,11 @@ namespace ShaperClient
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -250,7 +255,7 @@ namespace ShaperClient
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(658, 524);
+            this.pictureBox1.Size = new System.Drawing.Size(658, 515);
             this.pictureBox1.TabIndex = 15;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -258,7 +263,7 @@ namespace ShaperClient
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(50, 186);
+            this.button1.Location = new System.Drawing.Point(50, 294);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 16;
@@ -268,7 +273,7 @@ namespace ShaperClient
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(131, 186);
+            this.button2.Location = new System.Drawing.Point(131, 294);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 17;
@@ -314,7 +319,7 @@ namespace ShaperClient
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(131, 215);
+            this.button3.Location = new System.Drawing.Point(131, 323);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 20;
@@ -327,13 +332,13 @@ namespace ShaperClient
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Location = new System.Drawing.Point(3, 3);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(549, 461);
+            this.pictureBox2.Size = new System.Drawing.Size(658, 515);
             this.pictureBox2.TabIndex = 21;
             this.pictureBox2.TabStop = false;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(131, 244);
+            this.button4.Location = new System.Drawing.Point(131, 352);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 22;
@@ -351,7 +356,7 @@ namespace ShaperClient
             this.tabControl1.Location = new System.Drawing.Point(212, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(672, 558);
+            this.tabControl1.Size = new System.Drawing.Size(672, 549);
             this.tabControl1.TabIndex = 23;
             // 
             // tabPage1
@@ -360,7 +365,7 @@ namespace ShaperClient
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(664, 530);
+            this.tabPage1.Size = new System.Drawing.Size(664, 521);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Origin";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -371,16 +376,79 @@ namespace ShaperClient
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(555, 467);
+            this.tabPage2.Size = new System.Drawing.Size(664, 521);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Result";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(86, 186);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 19);
+            this.checkBox1.TabIndex = 24;
+            this.checkBox1.Text = "Triangles";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(86, 215);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(83, 19);
+            this.checkBox2.TabIndex = 25;
+            this.checkBox2.Text = "Rectangles";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.Location = new System.Drawing.Point(86, 244);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(61, 19);
+            this.checkBox3.TabIndex = 26;
+            this.checkBox3.Text = "Circles";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox4.Location = new System.Drawing.Point(86, 269);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(53, 19);
+            this.checkBox4.TabIndex = 27;
+            this.checkBox4.Text = "Lines";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar1.Location = new System.Drawing.Point(0, 551);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(884, 10);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 28;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 561);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.checkBox4);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -441,5 +509,10 @@ namespace ShaperClient
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        private CheckBox checkBox3;
+        private CheckBox checkBox4;
+        private ProgressBar progressBar1;
     }
 }
