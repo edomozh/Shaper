@@ -21,6 +21,7 @@ namespace Shaper.Shapes
             double maxX = x + width;
             double maxY = y + height;
 
+            // We should carefully add points to follow figure shape
             Points.Add(new Point(minX, minY));  // top left
             Points.Add(new Point(maxX, minY));  // top right
             Points.Add(new Point(maxX, maxY));  // bottom right

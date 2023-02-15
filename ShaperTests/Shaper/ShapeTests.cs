@@ -1,4 +1,5 @@
 using Shaper.Shapes;
+using Shaper.Extensions;
 
 namespace ShaperTests.Shaper
 {
@@ -14,7 +15,7 @@ namespace ShaperTests.Shaper
             var rect1 = new Rectangle(0, 0, 100, 100);
             var rect2 = new Rectangle(100, 100, 100, 100);
 
-            Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
+            Assert.That(rect1.Box.Intersects(rect2.Box), Is.True);
         }
 
         [Test]
@@ -23,7 +24,7 @@ namespace ShaperTests.Shaper
             var rect1 = new Rectangle(0, 0, 100, 100);
             var rect2 = new Rectangle(50, 50, 100, 100);
 
-            Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
+            Assert.That(rect1.Box.Intersects(rect2.Box), Is.True);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace ShaperTests.Shaper
             var rect1 = new Rectangle(0, 0, 100, 100);
             var rect2 = new Rectangle(100, 0, 100, 100);
 
-            Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
+            Assert.That(rect1.Box.Intersects(rect2.Box), Is.True);
         }
 
         [Test]
@@ -41,7 +42,7 @@ namespace ShaperTests.Shaper
             var rect1 = new Rectangle(0, 0, 100, 100);
             var rect2 = new Rectangle(0, 0, 100, 100);
 
-            Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.True);
+            Assert.That(rect1.Box.Intersects(rect2.Box), Is.True);
         }
 
         [Test]
@@ -50,7 +51,7 @@ namespace ShaperTests.Shaper
             var rect1 = new Rectangle(0, 0, 100, 100);
             var rect2 = new Rectangle(500, 500, 100, 100);
 
-            Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.False);
+            Assert.That(rect1.Box.Intersects(rect2.Box), Is.False);
         }
 
         [Test]
@@ -59,7 +60,7 @@ namespace ShaperTests.Shaper
             var rect1 = new Rectangle(101, 0, 100, 100);
             var rect2 = new Rectangle(0, 0, 100, 100);
 
-            Assert.That(rect1.BoundingBoxIntersection(rect2.Box), Is.False);
+            Assert.That(rect1.Box.Intersects(rect2.Box), Is.False);
         }
     }
 }

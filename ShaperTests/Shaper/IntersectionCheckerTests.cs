@@ -57,7 +57,7 @@ namespace ShaperTests.Shaper
             var figure1 = new Circle(235, 220, 150);
             var figure2 = new Rectangle(379, 142, 300, 300);
 
-            var rLines = figure2.GetLines().Select(l => new Line(l.p1.X, l.p1.Y, l.p2.X, l.p2.Y)).ToList();
+            var rLines = figure2.GetEdges().Select(l => new Line(l.p1.X, l.p1.Y, l.p2.X, l.p2.Y)).ToList();
 
             var i0 = _checker.CheckIntersection(figure1, rLines[0]);
             var i1 = _checker.CheckIntersection(figure1, rLines[1]);

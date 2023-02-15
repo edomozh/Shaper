@@ -2,7 +2,7 @@
 {
     using Shaper.Structs;
 
-    public static class PointExtension
+    public static class PointExtensions
     {
         public static double GetDistance(this Point start, Point dest)
         {

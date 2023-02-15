@@ -4,15 +4,15 @@ using Shaper.Shapes;
 namespace ShaperTests.Shaper
 {
     [TestFixture]
-    public class ShapeSeekerTests
+    public class ForegroundShapesSeekerTests
     {
-        ShapeSeeker seeker;
+        ForegroundShapesSeeker seeker;
         Generator generator;
 
         [SetUp]
         public void Setup()
         {
-            seeker = new ShapeSeeker();
+            seeker = new ForegroundShapesSeeker();
             generator = new Generator();
         }
 

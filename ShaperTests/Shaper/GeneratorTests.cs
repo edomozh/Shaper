@@ -30,7 +30,7 @@ namespace ShaperTests.Shaper
             Assert.That(shapes.Any(s => s is not Triangle), Is.EqualTo(false));
 
             // +1 because generator casts double to int and we can have maxSize +1
-            Assert.That(shapes.Any(s => s.GetLines().Any(line => line.p1.GetDistance(line.p2) > maxSize + 1)),
+            Assert.That(shapes.Any(s => s.GetEdges().Any(line => line.p1.GetDistance(line.p2) > maxSize + 1)),
                         Is.EqualTo(false));
         }
 

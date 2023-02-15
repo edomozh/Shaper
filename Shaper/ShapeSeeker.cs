@@ -2,10 +2,10 @@
 
 namespace Shaper
 {
-    public class ShapeSeeker
+    public class ForegroundShapesSeeker
     {
-        public event Action<object, Shape, int> NewShapeFound = null;
-        public event Action<object, int> Progress = null;
+        public event Action<object, Shape, int>? NewShapeFound = null;
+        public event Action<object, int>? Progress = null;
 
         public IEnumerable<int> FindAllForegroundShapes(int amountToFind, List<Shape> shapes)
         {

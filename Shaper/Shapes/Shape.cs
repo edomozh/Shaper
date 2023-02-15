@@ -15,15 +15,7 @@ namespace Shaper.Shapes
 
         public abstract Box GetBoundingBox();
 
-        public bool BoundingBoxIntersection(Box box)
-        {
-            return Box.X <= box.X + box.Width &&
-                   Box.X + Box.Width >= box.X &&
-                   Box.Y <= box.Y + box.Height &&
-                   Box.Y + Box.Height >= box.Y;
-        }
-
-        public IEnumerable<(Point p1, Point p2)> GetLines()
+        public virtual IEnumerable<(Point p1, Point p2)> GetEdges()
         {
             if (Points.Count < 2)
                 yield break;

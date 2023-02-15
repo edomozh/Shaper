@@ -55,6 +55,9 @@ namespace Shaper
 
         public bool CheckIntersection(Shape shape1, Shape shape2)
         {
+            if (!shape1.Box.Intersects(shape2.Box))
+                return false;
+
             if (InAreaRules.TryGetValue((shape1.GetType(), shape2.GetType()), out Func<Shape, Shape, bool>? inAreaRule))
                 if (inAreaRule(shape1, shape2))
                     return true;
@@ -81,18 +84,18 @@ namespace Shaper
         private bool CircleLinesIntersectionRule(Shape shape1, Shape shape2)
         {
             if (shape1 is Circle circle1)
-                return shape2.GetLines().Any(l => CircleLineIntersection(l, circle1));
+                return shape2.GetEdges().Any(l => CircleLineIntersection(l, circle1));
 
             if (shape2 is Circle circle2)
-                return shape1.GetLines().Any(l => CircleLineIntersection(l, circle2));
+                return shape1.GetEdges().Any(l => CircleLineIntersection(l, circle2));
 
             throw new ArgumentException($"Can't cast Shape to concrete implementation.");
         }
 
         private static bool LinesIntersectionRule(Shape shape1, Shape shape2)
         {
-            var lines1 = shape1.GetLines();
-            var lines2 = shape2.GetLines();
+            var lines1 = shape1.GetEdges();
+            var lines2 = shape2.GetEdges();
 
             foreach (var (p1, p2) in lines1)
                 foreach (var (p3, p4) in lines2)
@@ -153,7 +156,7 @@ namespace Shaper
             var B = 2 * (dx * (a.X - center.X) + dy * (a.Y - center.Y));
 
             var C = (a.X - center.X) * (a.X - center.X) + (a.Y - center.Y) * (a.Y - center.Y) - radius * radius;
-            
+
             var discriminant = B * B - 4 * A * C;
 
             if (discriminant < 0)
