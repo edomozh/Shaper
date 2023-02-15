@@ -1,9 +1,17 @@
-﻿using Shaper.Shapes;
+﻿using Shaper.Interfaces;
+using Shaper.Shapes;
 
 namespace Shaper
 {
-    public class ForegroundShapesSeeker
+    public class ForegroundShapesChecker
     {
+        private readonly IIntersectionChecker _checker;
+
+        public ForegroundShapesChecker(IIntersectionChecker intersectionChecker)
+        {
+            _checker = intersectionChecker;
+        }
+
         public event Action<object, Shape, int>? NewShapeFound = null;
         public event Action<object, int>? Progress = null;
 
@@ -18,8 +26,6 @@ namespace Shaper
             if (amountToFind == 0)
                 return Array.Empty<int>();
 
-            var checker = new IntersectionChecker();
-
             var result = new List<int>();
             var passed = new List<int>();
 
@@ -29,7 +35,7 @@ namespace Shaper
 
                 foreach (var p in result)
                 {
-                    if (checker.CheckIntersection(shapes[i], shapes[p]))
+                    if (_checker.CheckIntersection(shapes[i], shapes[p]))
                     {
                         thereIsIntersection = true;
                         break;
@@ -40,7 +46,7 @@ namespace Shaper
                 {
                     foreach (var p in passed)
                     {
-                        if (checker.CheckIntersection(shapes[i], shapes[p]))
+                        if (_checker.CheckIntersection(shapes[i], shapes[p]))
                         {
                             thereIsIntersection = true;
                             break;

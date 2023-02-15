@@ -1,10 +1,11 @@
 ﻿using Shaper.Extensions;
+using Shaper.Interfaces;
 using Shaper.Shapes;
 using Shaper.Structs;
 
 namespace Shaper
 {
-    public class IntersectionChecker
+    public class IntersectionChecker : IIntersectionChecker
     {
         private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> IntersectionRules = new();
         private readonly Dictionary<(Type, Type), Func<Shape, Shape, bool>> InAreaRules = new();

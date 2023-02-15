@@ -6,7 +6,7 @@ namespace ShaperTests.Shaper
     [TestFixture]
     public class ForegroundShapesSeekerTests
     {
-        ForegroundShapesSeeker seeker;
+        ForegroundShapesChecker seeker;
         Generator generator;
 
         [SetUp]

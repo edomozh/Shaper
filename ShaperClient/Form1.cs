@@ -20,7 +20,7 @@ namespace ShaperClient
             var minSize = decimal.ToInt32(numericUpDown5.Value);
             var maxSize = decimal.ToInt32(numericUpDown6.Value);
 
-            var generator = new Generator();
+            var generator = new ShapesGenerator();
             Shapes = generator.GetShapes(count, width, height, minSize, maxSize,
                                          checkBox1.Checked, checkBox2.Checked, checkBox3.Checked, checkBox4.Checked)
                                          .ToList();

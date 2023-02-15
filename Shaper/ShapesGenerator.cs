@@ -2,7 +2,7 @@
 
 namespace Shaper
 {
-    public class Generator
+    public class ShapesGenerator
     {
         private readonly Random _random = new();
 
