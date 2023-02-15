@@ -23,8 +23,8 @@ namespace Shaper.Shapes
 
             Points.Add(new Point(minX, minY));  // top left
             Points.Add(new Point(maxX, minY));  // top right
-            Points.Add(new Point(minX, maxY));  // bottom left
             Points.Add(new Point(maxX, maxY));  // bottom right
+            Points.Add(new Point(minX, maxY));  // bottom left
         }
 
         public override Box GetBoundingBox()

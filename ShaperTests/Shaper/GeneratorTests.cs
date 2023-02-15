@@ -1,4 +1,5 @@
 using Shaper;
+using Shaper.Extensions;
 using Shaper.Shapes;
 
 namespace ShaperTests.Shaper
@@ -28,13 +29,9 @@ namespace ShaperTests.Shaper
 
             Assert.That(shapes.Any(s => s is not Triangle), Is.EqualTo(false));
 
-            Assert.That(shapes.Any(s => s.GetLines().Any(line =>
-                {
-                    var x = line.p1.X - line.p2.X;
-                    var y = line.p1.Y - line.p2.Y;
-                    return Math.Sqrt(x * x + y * y) > maxSize;
-                }
-                )), Is.EqualTo(false));
+            // +1 because generator casts double to int and we can have maxSize +1
+            Assert.That(shapes.Any(s => s.GetLines().Any(line => line.p1.GetDistance(line.p2) > maxSize + 1)),
+                        Is.EqualTo(false));
         }
 
         [Test]

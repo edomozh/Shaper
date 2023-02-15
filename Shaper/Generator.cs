@@ -61,7 +61,7 @@ namespace Shaper
             int x1 = _random.Next(0 + longestSideLength, surfaceWidth - longestSideLength);
             int y1 = _random.Next(0 + longestSideLength, surfaceHeight - longestSideLength);
 
-            // Generate random angles
+            // Generate random angle
             double angle1 = _random.NextDouble() * 2 * Math.PI;
             // Generate sharp angle (0 - 60)
             double angle2 = angle1 + _random.NextDouble();

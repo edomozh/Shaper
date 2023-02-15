@@ -39,11 +39,13 @@ It is a UI to easy demonstrate the result.
 - skip shapes that far apart (done with bounding box)
 
 # Possible ways to improve
+- add tests to search with many threads with one declared list
+- create generic rules container.
+
 - use multithreading for sets of shapes (consider number of processor cores) 
 - if there is no free space for line with minimal length then stop processing.
-- draw the files using html or svg formats to avoid using System.Draving.Common.dll.
-- create generic rules container.
 - create visualizer to draw shapes.
+- add pssibility to draw using html or svg to avoid using System.Draving.Common.dll.
 
 # Screenshots
 ![Alt text](Result/origin.png?raw=true)

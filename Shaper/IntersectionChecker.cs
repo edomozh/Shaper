@@ -1,4 +1,5 @@
-﻿using Shaper.Shapes;
+﻿using Shaper.Extensions;
+using Shaper.Shapes;
 using Shaper.Structs;
 
 namespace Shaper
@@ -10,19 +11,19 @@ namespace Shaper
 
         public IntersectionChecker()
         {
-            UpdateIntersectionRule(typeof(Circle), typeof(Circle), CircleCircleIntersection);
+            UpdateIntersectionRule(typeof(Circle), typeof(Circle), CircleCircleIntersectioRule);
             UpdateIntersectionRule(typeof(Circle), typeof(Line), CircleLinesIntersectionRule);
             UpdateIntersectionRule(typeof(Circle), typeof(Rectangle), CircleLinesIntersectionRule);
             UpdateIntersectionRule(typeof(Circle), typeof(Triangle), CircleLinesIntersectionRule);
 
-            UpdateIntersectionRule(typeof(Line), typeof(Line), LinesIntersection);
-            UpdateIntersectionRule(typeof(Line), typeof(Rectangle), LinesIntersection);
-            UpdateIntersectionRule(typeof(Line), typeof(Triangle), LinesIntersection);
+            UpdateIntersectionRule(typeof(Line), typeof(Line), LinesIntersectionRule);
+            UpdateIntersectionRule(typeof(Line), typeof(Rectangle), LinesIntersectionRule);
+            UpdateIntersectionRule(typeof(Line), typeof(Triangle), LinesIntersectionRule);
 
-            UpdateIntersectionRule(typeof(Rectangle), typeof(Rectangle), LinesIntersection);
-            UpdateIntersectionRule(typeof(Rectangle), typeof(Triangle), LinesIntersection);
+            UpdateIntersectionRule(typeof(Rectangle), typeof(Rectangle), LinesIntersectionRule);
+            UpdateIntersectionRule(typeof(Rectangle), typeof(Triangle), LinesIntersectionRule);
 
-            UpdateIntersectionRule(typeof(Triangle), typeof(Triangle), LinesIntersection);
+            UpdateIntersectionRule(typeof(Triangle), typeof(Triangle), LinesIntersectionRule);
 
 
             UpdateAreaRule(typeof(Circle), typeof(Circle), PointInCircleRule);
@@ -67,12 +68,12 @@ namespace Shaper
 
         #region RULEFUNCTIONS
 
-        private bool CircleCircleIntersection(Shape circle1, Shape circle2)
+        private bool CircleCircleIntersectioRule(Shape circle1, Shape circle2)
         {
             if (circle1 is not Circle s1 || circle2 is not Circle s2)
                 throw new ArgumentException($"Can't cast Shape to concrete implementation.");
 
-            var distance = GetDistanse(s1.Center, s2.Center);
+            var distance = s1.Center.GetDistance(s2.Center);
 
             return s1.Radius + s2.Radius >= distance;
         }
@@ -88,14 +89,14 @@ namespace Shaper
             throw new ArgumentException($"Can't cast Shape to concrete implementation.");
         }
 
-        private static bool LinesIntersection(Shape shape1, Shape shape2)
+        private static bool LinesIntersectionRule(Shape shape1, Shape shape2)
         {
             var lines1 = shape1.GetLines();
             var lines2 = shape2.GetLines();
 
             foreach (var (p1, p2) in lines1)
                 foreach (var (p3, p4) in lines2)
-                    if (IsIntersect(p1, p2, p3, p4))
+                    if (LinesIntersect(p1, p2, p3, p4))
                         return true;
 
             return false;
@@ -140,32 +141,42 @@ namespace Shaper
 
         public static bool CircleLineIntersection((Point p1, Point p2) line, Circle circle)
         {
-            Point d = new Point
-            {
-                X = line.p2.X - line.p1.X,
-                Y = line.p2.Y - line.p1.Y
-            };
-            Point f = new Point
-            {
-                X = line.p1.X - circle.Center.X,
-                Y = line.p1.Y - circle.Center.Y
-            };
+            var center = circle.Center;
+            var radius = circle.Radius;
+            var a = line.p1;
+            var b = line.p2;
 
-            double a = d.X * d.X + d.Y * d.Y;
-            double b = 2 * (f.X * d.X + f.Y * d.Y);
-            double c = f.X * f.X + f.Y * f.Y - circle.Radius * circle.Radius;
+            var dx = b.X - a.X;
+            var dy = b.Y - a.Y;
+            var A = dx * dx + dy * dy;
 
-            double discriminant = b * b - 4 * a * c;
+            var B = 2 * (dx * (a.X - center.X) + dy * (a.Y - center.Y));
+
+            var C = (a.X - center.X) * (a.X - center.X) + (a.Y - center.Y) * (a.Y - center.Y) - radius * radius;
+            
+            var discriminant = B * B - 4 * A * C;
+
             if (discriminant < 0)
             {
+                // Line segment and circle do not intersect
                 return false;
             }
+            else
+            {
+                // Calculate intersection points (if any)
+                var t1 = (-B + Math.Sqrt(discriminant)) / (2 * A);
+                var t2 = (-B - Math.Sqrt(discriminant)) / (2 * A);
 
-            discriminant = Math.Sqrt(discriminant);
-            double t1 = (-b - discriminant) / (2 * a);
-            double t2 = (-b + discriminant) / (2 * a);
-
-            return (t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1);
+                // Check if intersection points are on the line segment
+                if (t1 >= 0 && t1 <= 1 || t2 >= 0 && t2 <= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         static bool OnSegment(Point p, Point q, Point r)
@@ -185,14 +196,14 @@ namespace Shaper
             // 2 --> Counterclockwise
             // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
             // for details of below formula.
-            double val = (q.Y - p.Y) * (r.X - q.X) - (q.X - p.X) * (r.Y - q.Y);
+            var val = (q.Y - p.Y) * (r.X - q.X) - (q.X - p.X) * (r.Y - q.Y);
 
             if (val == 0) return 0; // collinear
 
             return (val > 0) ? 1 : 2; // clock or counterclock wise
         }
 
-        static bool IsIntersect(Point p1, Point q1, Point p2, Point q2)
+        static bool LinesIntersect(Point p1, Point q1, Point p2, Point q2)
         {
             // The main function that returns true if line segment 'p1q1'
             // and 'p2q2' intersect.
@@ -257,14 +268,9 @@ namespace Shaper
                    (point.Y >= v1.Y && point.Y <= v1.Y + rectangle.Height);
         }
 
-        private static double GetDistanse(Point start, Point end)
-        {
-            return Math.Sqrt(Math.Pow(start.X - end.X, 2) + Math.Pow(start.Y - end.Y, 2));
-        }
-
         public static bool PointInCircle(Point point, Circle circle)
         {
-            double distance = GetDistanse(point, circle.Center);
+            var distance = point.GetDistance(circle.Center);
             return distance <= circle.Radius;
         }
 
