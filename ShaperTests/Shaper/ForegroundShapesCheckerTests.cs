@@ -1,19 +1,22 @@
 using Shaper;
+using Shaper.Interfaces;
 using Shaper.Shapes;
 
 namespace ShaperTests.Shaper
 {
     [TestFixture]
-    public class ForegroundShapesSeekerTests
+    public class ForegroundShapesCheckerTests
     {
+        IntersectionChecker intersectionChecker;
         ForegroundShapesChecker seeker;
-        Generator generator;
+        ShapesGenerator generator;
 
         [SetUp]
         public void Setup()
         {
-            seeker = new ForegroundShapesSeeker();
-            generator = new Generator();
+            intersectionChecker = new IntersectionChecker();
+            seeker = new ForegroundShapesChecker(intersectionChecker);
+            generator = new ShapesGenerator();
         }
 
         [Test]

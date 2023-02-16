@@ -100,7 +100,8 @@ namespace ShaperClient
         {
             if (Shapes == null || pictureBox1.Image == null) return;
 
-            var seeker = new ForegroundShapesSeeker();
+            var checker = new IntersectionChecker();
+            var seeker = new ForegroundShapesChecker(checker);
 
             seeker.Progress += Seeker_ProgressHandler;
 
