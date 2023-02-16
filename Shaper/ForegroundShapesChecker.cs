@@ -23,7 +23,7 @@ namespace Shaper
         /// <param name="amountToFind"></param>
         /// <param name="minArea"></param>
         /// <returns>Set of indexes of foreground shapes</returns>
-        public IEnumerable<int> FindAllForegroundShapes(
+        public IEnumerable<int> FindForegroundShapes(
             List<Shape> shapes,
             int amountToFind = int.MaxValue,
             int minArea = int.MinValue)
@@ -98,6 +98,14 @@ namespace Shaper
             int amountToFind = int.MaxValue,
             int minArea = int.MinValue)
         {
+            return await Task.Run(() => FindForegroundShapesSync(shapes, amountToFind, minArea));
+        }
+
+        public IEnumerable<int> FindForegroundShapesSync(
+              ConcurrentDictionary<int, Shape> shapes,
+              int amountToFind = int.MaxValue,
+              int minArea = int.MinValue)
+        {
             if (amountToFind < 0)
                 throw new ArgumentOutOfRangeException("Amount must me positive number.");
 
@@ -154,8 +162,6 @@ namespace Shaper
             }
 
             return result;
-
-            // return await Task.Run(() => FindAllForegroundShapes(shapes, amountToFind, minArea));
         }
     }
 }

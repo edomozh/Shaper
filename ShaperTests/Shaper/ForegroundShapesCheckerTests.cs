@@ -29,48 +29,48 @@ namespace ShaperTests.Shaper
             }
         }
 
-        #region FindAllForegroundShapes
+        #region FindForegroundShapes
 
         [Test]
-        public void FindAllForegroundShapes()
+        public void FindForegroundShapes()
         {
             var shapes = generator.GetShapes(10, 100, 100, 5, 10);
             int expectedAmountToFind = 3;
 
-            var result = seeker.FindAllForegroundShapes(shapes, expectedAmountToFind);
+            var result = seeker.FindForegroundShapes(shapes, expectedAmountToFind);
 
             Assert.That(result.Count(), Is.EqualTo(expectedAmountToFind));
         }
 
         [Test]
-        public void FindAllForegroundShapes_ReturnsEmptyList_WhenAmountToFindIsZero()
+        public void FindForegroundShapes_ReturnsEmptyList_WhenAmountToFindIsZero()
         {
             var shapes = generator.GetShapes(10, 100, 100, 5, 10);
             int expectedAmountToFind = 0;
 
-            var result = seeker.FindAllForegroundShapes(shapes, expectedAmountToFind);
+            var result = seeker.FindForegroundShapes(shapes, expectedAmountToFind);
 
             Assert.That(result.Count(), Is.EqualTo(expectedAmountToFind));
         }
 
         [Test]
-        public void FindAllForegroundShapes_ReturnsEmptyList_WhenShapesIsEmpty()
+        public void FindForegroundShapes_ReturnsEmptyList_WhenShapesIsEmpty()
         {
             var shapes = new List<Shape>();
             int expectedAmountToFind = 3;
 
-            var result = seeker.FindAllForegroundShapes(shapes, expectedAmountToFind);
+            var result = seeker.FindForegroundShapes(shapes, expectedAmountToFind);
 
             Assert.That(result.Count(), Is.EqualTo(0));
         }
 
-        #endregion FindAllForegroundShapes
+        #endregion FindForegroundShapes
 
-        #region FindAllForegroundShapesAsync
+        #region FindForegroundShapesAsync
 
         [Test]
         [Parallelizable]
-        public async Task FindAllForegroundShapesAsync_HighLoad()
+        public async Task FindForegroundShapesAsync_HighLoad()
         {
             var tasks = new List<Task>();
             for (var i = 1; i <= 1000; i++)
@@ -88,7 +88,7 @@ namespace ShaperTests.Shaper
 
         [Test]
         [Parallelizable]
-        public async Task FindAllForegroundShapesAsync_HighLoad1()
+        public async Task FindForegroundShapesAsync_HighLoad1()
         {
             var tasks = new List<Task>();
             for (var i = 1; i <= 1000; i++)
@@ -106,7 +106,7 @@ namespace ShaperTests.Shaper
 
         [Test]
         [Parallelizable]
-        public async Task FindAllForegroundShapesAsync_HighLoad2()
+        public async Task FindForegroundShapesAsync_HighLoad2()
         {
             var tasks = new List<Task>();
             for (var i = 1; i <= 1000; i++)
@@ -123,23 +123,26 @@ namespace ShaperTests.Shaper
 
         [Test]
         [Parallelizable]
-        public async Task FindAllForegroundShapesAsync_NullList()
+        public async Task FindForegroundShapesAsync_NullList()
         {
-            var task = seeker.FindForegroundShapesAsync(null);
+            await Task.Run(() =>
+             {
+                 var task = seeker.FindForegroundShapesAsync(null!);
 
-            Assert.ThrowsAsync<ArgumentNullException>(() => task);
+                 Assert.ThrowsAsync<ArgumentNullException>(() => task);
+             });
         }
 
         [Test]
         [Parallelizable]
-        public async Task FindAllForegroundShapesAsync_EmptyList()
+        public async Task FindForegroundShapesAsync_EmptyList()
         {
             var result = await seeker.FindForegroundShapesAsync(new ConcurrentDictionary<int, Shape>(), 10);
 
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Empty);
         }
 
-        #endregion FindAllForegroundShapesAsync
+        #endregion FindForegroundShapesAsync
 
     }
 }

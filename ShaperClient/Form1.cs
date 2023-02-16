@@ -11,7 +11,7 @@ namespace ShaperClient
             InitializeComponent();
         }
 
-        private List<Shape> Shapes;
+        private List<Shape>? Shapes;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -105,10 +105,10 @@ namespace ShaperClient
             var seeker = new ForegroundShapesChecker(checker);
 
             seeker.Progress += Seeker_ProgressHandler;
-          
+
             var i = 0;
             var concurencyShapes = new ConcurrentDictionary<int, Shape>(Shapes.ToDictionary(s => i++, s => s));
-         
+
             var result = await seeker.FindForegroundShapesAsync(
                 concurencyShapes,
                 decimal.ToInt32(numericUpDown2.Value),
