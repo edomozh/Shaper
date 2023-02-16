@@ -23,5 +23,10 @@ namespace Shaper.Shapes
             double height = 2 * Radius;
             return new Box(x, y, width, height);
         }
+
+        public override int GetArea()
+        {
+            return (int)(Math.PI * Radius * Radius);
+        }
     }
 }

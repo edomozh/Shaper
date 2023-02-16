@@ -15,6 +15,8 @@ namespace Shaper.Shapes
 
         public abstract Box GetBoundingBox();
 
+        public abstract int GetArea();
+
         public virtual IEnumerable<(Point p1, Point p2)> GetEdges()
         {
             if (Points.Count < 2)
@@ -23,7 +25,7 @@ namespace Shaper.Shapes
             for (int i = 0; i < Points.Count - 1; i++)
                 yield return new(Points[i], Points[i + 1]);
 
-            yield return new(Points[Points.Count - 1], Points[0]);
+            yield return new(Points[^1], Points[0]);
         }
     }
 }

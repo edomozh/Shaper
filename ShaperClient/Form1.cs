@@ -1,5 +1,6 @@
 using Shaper;
 using Shaper.Shapes;
+using System.Collections.Concurrent;
 
 namespace ShaperClient
 {
@@ -104,8 +105,14 @@ namespace ShaperClient
             var seeker = new ForegroundShapesChecker(checker);
 
             seeker.Progress += Seeker_ProgressHandler;
-
-            var result = await seeker.FindAllForegroundShapesAsync(decimal.ToInt32(numericUpDown2.Value), Shapes);
+          
+            var i = 0;
+            var concurencyShapes = new ConcurrentDictionary<int, Shape>(Shapes.ToDictionary(s => i++, s => s));
+         
+            var result = await seeker.FindForegroundShapesAsync(
+                concurencyShapes,
+                decimal.ToInt32(numericUpDown2.Value),
+                decimal.ToInt32(numericUpDown7.Value));
 
             var shapesToDraw = result.Select(i => Shapes[i]);
 

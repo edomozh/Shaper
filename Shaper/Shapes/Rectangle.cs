@@ -32,5 +32,10 @@ namespace Shaper.Shapes
         {
             return new Box(Points[0].X, Points[0].Y, Width, Height);
         }
+
+        public override int GetArea()
+        {
+            return (int)(Height * Width);
+        }
     }
 }

@@ -23,5 +23,10 @@ namespace Shaper.Shapes
             double height = Math.Abs(Points[1].Y - Points[0].Y);
             return new Box(x, y, width, height);
         }
+
+        public override int GetArea()
+        {
+            return 0;
+        }
     }
 }
