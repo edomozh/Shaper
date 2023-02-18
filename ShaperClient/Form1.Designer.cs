@@ -127,7 +127,7 @@ namespace ShaperClient
             0});
             this.numericUpDown1.Location = new System.Drawing.Point(86, 12);
             this.numericUpDown1.Maximum = new decimal(new int[] {
-            10000,
+            50000,
             0,
             0,
             0});
@@ -140,7 +140,7 @@ namespace ShaperClient
             this.numericUpDown1.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown1.TabIndex = 10;
             this.numericUpDown1.Value = new decimal(new int[] {
-            500,
+            5000,
             0,
             0,
             0});
@@ -194,7 +194,7 @@ namespace ShaperClient
             this.numericUpDown3.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown3.TabIndex = 12;
             this.numericUpDown3.Value = new decimal(new int[] {
-            900,
+            9000,
             0,
             0,
             0});
@@ -221,7 +221,7 @@ namespace ShaperClient
             this.numericUpDown4.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown4.TabIndex = 13;
             this.numericUpDown4.Value = new decimal(new int[] {
-            600,
+            6000,
             0,
             0,
             0});
@@ -259,6 +259,7 @@ namespace ShaperClient
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(658, 515);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 15;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -336,6 +337,7 @@ namespace ShaperClient
             this.pictureBox2.Location = new System.Drawing.Point(3, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(658, 515);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 21;
             this.pictureBox2.TabStop = false;
             // 
@@ -459,7 +461,7 @@ namespace ShaperClient
             this.numericUpDown7.Size = new System.Drawing.Size(120, 23);
             this.numericUpDown7.TabIndex = 29;
             this.numericUpDown7.Value = new decimal(new int[] {
-            10000,
+            1000,
             0,
             0,
             0});
