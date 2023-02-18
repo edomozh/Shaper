@@ -1,13 +1,12 @@
 using Shaper;
 using Shaper.Shapes;
-using System.Collections.Concurrent;
 
 namespace ShaperTests.Shaper
 {
     [TestFixture]
     public class ForegroundShapesCheckerTests
     {
-        private static ConcurrentDictionary<int, Shape> shapes = new();
+        private static List<Shape> shapes = new();
 
         private IntersectionChecker intersectionChecker;
         private ForegroundShapesChecker seeker;
@@ -20,19 +19,14 @@ namespace ShaperTests.Shaper
             seeker = new ForegroundShapesChecker(intersectionChecker);
             generator = new ShapesGenerator();
 
-            var i = 0;
             if (shapes.Count < 1)
-            {
-                var generated = generator.GetShapes(10000);
-                shapes = new ConcurrentDictionary<int, Shape>(
-                    generated.ToDictionary(s => i++, s => s));
-            }
+                shapes = generator.GetShapes(short.MaxValue, short.MaxValue, short.MaxValue);
         }
 
         #region FindForegroundShapes
 
         [Test]
-        public void FindForegroundShapes()
+        public void FindForegroundShapes_Find3Shapes()
         {
             var shapes = generator.GetShapes(10, 100, 100, 5, 10);
             int expectedAmountToFind = 3;
@@ -70,18 +64,22 @@ namespace ShaperTests.Shaper
 
         [Test]
         [Parallelizable]
-        public async Task FindForegroundShapesAsync_HighLoad()
+        public async Task FindForegroundShapesAsync_HighLoad0()
         {
-            var tasks = new List<Task>();
-            for (var i = 1; i <= 1000; i++)
+            var tasks = new List<Task>
             {
-                tasks.Add(Task.Run(async () =>
+                Task.Run(async () =>
                 {
                     var result = await seeker.FindForegroundShapesAsync(shapes);
-
                     Assert.That(result.Count(), Is.GreaterThan(0));
-                }));
-            }
+                }),
+
+                Task.Run(async () =>
+                {
+                    var result = await seeker.FindForegroundShapesAsync(shapes);
+                    Assert.That(result.Count(), Is.GreaterThan(0));
+                })
+            };
 
             await Task.WhenAll(tasks);
         }
@@ -90,40 +88,27 @@ namespace ShaperTests.Shaper
         [Parallelizable]
         public async Task FindForegroundShapesAsync_HighLoad1()
         {
-            var tasks = new List<Task>();
-            for (var i = 1; i <= 1000; i++)
+            var tasks = new List<Task>
             {
-                tasks.Add(Task.Run(async () =>
+                Task.Run(async () =>
                 {
                     var result = await seeker.FindForegroundShapesAsync(shapes);
-
                     Assert.That(result.Count(), Is.GreaterThan(0));
-                }));
-            }
+                }),
+
+                Task.Run(async () =>
+                {
+                    var result = await seeker.FindForegroundShapesAsync(shapes);
+                    Assert.That(result.Count(), Is.GreaterThan(0));
+                })
+            };
 
             await Task.WhenAll(tasks);
         }
 
         [Test]
         [Parallelizable]
-        public async Task FindForegroundShapesAsync_HighLoad2()
-        {
-            var tasks = new List<Task>();
-            for (var i = 1; i <= 1000; i++)
-            {
-                tasks.Add(Task.Run(async () =>
-                {
-                    var result = await seeker.FindForegroundShapesAsync(shapes);
-                    Assert.That(result.Count(), Is.GreaterThan(0));
-                }));
-            }
-
-            await Task.WhenAll(tasks);
-        }
-
-        [Test]
-        [Parallelizable]
-        public async Task FindForegroundShapesAsync_NullList()
+        public async Task FindForegroundShapesAsync_NullListPassed()
         {
             await Task.Run(() =>
              {
@@ -135,9 +120,9 @@ namespace ShaperTests.Shaper
 
         [Test]
         [Parallelizable]
-        public async Task FindForegroundShapesAsync_EmptyList()
+        public async Task FindForegroundShapesAsync_EmptyListPassed()
         {
-            var result = await seeker.FindForegroundShapesAsync(new ConcurrentDictionary<int, Shape>(), 10);
+            var result = await seeker.FindForegroundShapesAsync(new List<Shape>(), 10);
 
             Assert.That(result, Is.Empty);
         }

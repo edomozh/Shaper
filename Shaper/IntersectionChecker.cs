@@ -12,6 +12,18 @@ namespace Shaper
 
         public IntersectionChecker()
         {
+            UpdateAreaRule(typeof(Circle), typeof(Circle), PointInCircleRule);
+            UpdateAreaRule(typeof(Circle), typeof(Line), PointInCircleRule);
+            UpdateAreaRule(typeof(Circle), typeof(Rectangle), PointInCircleRule);
+            UpdateAreaRule(typeof(Circle), typeof(Triangle), PointInCircleRule);
+
+            UpdateAreaRule(typeof(Rectangle), typeof(Line), PointInRectangleRule);
+            UpdateAreaRule(typeof(Rectangle), typeof(Rectangle), PointInRectangleRule);
+            UpdateAreaRule(typeof(Rectangle), typeof(Triangle), PointInRectangleRule);
+
+            UpdateAreaRule(typeof(Triangle), typeof(Triangle), PointInTriangleRule);
+            UpdateAreaRule(typeof(Triangle), typeof(Line), PointInTriangleRule);
+
             UpdateIntersectionRule(typeof(Circle), typeof(Circle), CircleCircleIntersectioRule);
             UpdateIntersectionRule(typeof(Circle), typeof(Line), CircleLinesIntersectionRule);
             UpdateIntersectionRule(typeof(Circle), typeof(Rectangle), CircleLinesIntersectionRule);
@@ -25,21 +37,6 @@ namespace Shaper
             UpdateIntersectionRule(typeof(Rectangle), typeof(Triangle), LinesIntersectionRule);
 
             UpdateIntersectionRule(typeof(Triangle), typeof(Triangle), LinesIntersectionRule);
-
-
-            UpdateAreaRule(typeof(Circle), typeof(Circle), PointInCircleRule);
-            UpdateAreaRule(typeof(Circle), typeof(Line), PointInCircleRule);
-            UpdateAreaRule(typeof(Circle), typeof(Rectangle), PointInCircleRule);
-            UpdateAreaRule(typeof(Circle), typeof(Triangle), PointInCircleRule);
-
-            UpdateAreaRule(typeof(Rectangle), typeof(Line), PointInRectangleRule);
-            UpdateAreaRule(typeof(Rectangle), typeof(Rectangle), PointInRectangleRule);
-            UpdateAreaRule(typeof(Rectangle), typeof(Triangle), PointInRectangleRule);
-
-            UpdateAreaRule(typeof(Line), typeof(Line), PointInCircleRule);
-            UpdateAreaRule(typeof(Line), typeof(Triangle), PointInCircleRule);
-
-            UpdateAreaRule(typeof(Triangle), typeof(Triangle), PointInTriangleRule);
         }
 
         public void UpdateIntersectionRule(Type type1, Type type2, Func<Shape, Shape, bool> checker)
@@ -63,8 +60,8 @@ namespace Shaper
                 if (inAreaRule(shape1, shape2))
                     return true;
 
-            if (IntersectionRules.TryGetValue((shape1.GetType(), shape2.GetType()), out Func<Shape, Shape, bool>? complexRule))
-                return complexRule(shape1, shape2);
+            if (IntersectionRules.TryGetValue((shape1.GetType(), shape2.GetType()), out Func<Shape, Shape, bool>? intersectionRule))
+                return intersectionRule(shape1, shape2);
 
             throw new ArgumentException($"No intersection rule available for the {shape1.GetType()} and {shape2.GetType()}");
 

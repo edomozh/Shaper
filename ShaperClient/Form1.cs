@@ -106,11 +106,8 @@ namespace ShaperClient
 
             seeker.Progress += Seeker_ProgressHandler;
 
-            var i = 0;
-            var concurencyShapes = new ConcurrentDictionary<int, Shape>(Shapes.ToDictionary(s => i++, s => s));
-
             var result = await seeker.FindForegroundShapesAsync(
-                concurencyShapes,
+                Shapes,
                 decimal.ToInt32(numericUpDown2.Value),
                 decimal.ToInt32(numericUpDown7.Value));
 

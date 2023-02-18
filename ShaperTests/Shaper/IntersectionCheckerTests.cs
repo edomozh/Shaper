@@ -34,7 +34,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleLine_Intersection()
+        public void CheckIntersection_CircelCrossedByLine_Intersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Line(0, 160, 160, 0);
@@ -43,7 +43,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleVerticalLine_Intersection()
+        public void CheckIntersection_CircleCrossedByVerticalLine_Intersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Line(99, 0, 99, 99);
@@ -52,7 +52,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleRightRectangle_Intersection()
+        public void CheckIntersection_CircleCrossedByRectangleOnTheRight_Intersection()
         {
             var figure1 = new Circle(235, 220, 150);
             var figure2 = new Rectangle(379, 142, 300, 300);
@@ -70,7 +70,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleRightLine_Intersection()
+        public void CheckIntersection_CircleCrossedByLineOnTheRight_Intersection()
         {
             var figure1 = new Circle(235, 220, 150); // maxX = 385
             var figure2 = new Line(379, 142, 379, 442);
@@ -79,7 +79,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleLine_NoIntersection()
+        public void CheckIntersection_CircleCloseToLine_NoIntersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Line(0, 180, 180, 0);
@@ -88,7 +88,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleTriangle_Intersection()
+        public void CheckIntersection_CircleAndTriangle_Intersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Triangle(0, 160, 160, 0, 1000, 1000);
@@ -97,7 +97,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleTriangle_NoIntersection()
+        public void CheckIntersection_CircleAndTriangleNearby_NoIntersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Triangle(0, 180, 180, 0, 1000, 1000);
@@ -106,7 +106,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleRectangle_Intersection()
+        public void CheckIntersection_CircleAndRectangle_Intersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Rectangle(60, 0, 100, 100);
@@ -115,7 +115,7 @@ namespace ShaperTests.Shaper
         }
 
         [Test]
-        public void CheckIntersection_CircleRectangle_NoIntersection()
+        public void CheckIntersection_CircleAndRectangleNearby_NoIntersection()
         {
             var figure1 = new Circle(50, 50, 50);
             var figure2 = new Rectangle(87, 87, 100, 100);
@@ -226,6 +226,15 @@ namespace ShaperTests.Shaper
         #endregion RECTANGLES
 
         #region TRIANGLES
+
+        [Test]
+        public void CheckIntersection_TriangleInCircle_Intersection()
+        {
+            var figure1 = new Triangle(60, 60, 70, 60, 60, 70);
+            var figure2 = new Circle(100, 100, 100);
+
+            Assert.That(_checker.CheckIntersection(figure1, figure2), Is.True);
+        }
 
         [Test]
         public void CheckIntersection_Triangles_Intersection()
