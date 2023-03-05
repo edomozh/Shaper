@@ -29,8 +29,8 @@ It is a UI to easy demonstrate the result.
 
 # Screenshots
 
-![Alt text](Result/origin.png?raw=true)
-![Alt text](Result/result.png?raw=true)
+![](Result/origin.png?raw=true)
+![](Result/result.png?raw=true)
 
 ## Requirements
 
